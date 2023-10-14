@@ -5,14 +5,32 @@ import { styled } from 'styled-components';
 const Header = styled.h1`
 
 `;
+const Text = styled.p`
+  color: green;
+`;
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function Home() {
-    return (
-      <div style={{marginTop: '50px'}}>
-        <Header>The Hartfields are going to Kenya!</Header>
-        <Image src={require('../assets/Kenya-landing.jpg')} rounded/>
-      </div>
-    );
-  }
-  
+  const rows = [
+    { text: 'abc', image: '../assets/Kenya-landing.jpg' },
+    { text: 'def', image: '../assets/Kenya-landing.jpg' }
+  ]
+
+  return (
+    <div style={{ marginTop: '50px' }}>
+      <Header>The Hartfields are going to Kenya!</Header>
+      {rows.map((row, idx) => (
+        <Div key={'home-' + idx}>
+          <Image src={require("../assets/Kenya-landing.jpg")} rounded />
+          <Text>{row.text}</Text>
+        </Div>
+      ))}
+    </div>
+  );
+}
+
 export default Home;
