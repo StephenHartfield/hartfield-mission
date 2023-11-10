@@ -16,8 +16,8 @@ const Div = styled.div`
 
 function Home() {
   const rows = [
-    { text: 'abc', image: '../assets/Kenya-landing.jpg' },
-    { text: 'def', image: '../assets/Kenya-landing.jpg' }
+    { text: 'abc', image: require('../assets/Kenya-landing.jpg') },
+    { text: 'def', image: require('../assets/Kenya-landing.jpg') }
   ]
 
   return (
@@ -25,7 +25,7 @@ function Home() {
       <Header>The Hartfields are going to Kenya!</Header>
       {rows.map((row, idx) => (
         <Div key={'home-' + idx}>
-          <Image src={require("../assets/Kenya-landing.jpg")} rounded />
+          <Image src={row.image} rounded />
           <Text>{row.text}</Text>
         </Div>
       ))}

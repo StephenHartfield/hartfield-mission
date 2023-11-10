@@ -22,9 +22,7 @@ function Navigation() {
             <Nav.Link href='/admin'>Admin</Nav.Link>
           </Nav>
         </Navbar.Collapse>
-        
       </Container>
-      
     </Navbar>
   );
 }
