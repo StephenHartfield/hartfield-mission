@@ -22,7 +22,7 @@ function Home() {
 
   return (
     <div style={{ marginTop: '50px' }}>
-      <Header>The Hartfields are going to Kenya!</Header>
+      <Header className='animate__animated animate__bounceIn'>The Hartfields are going to Kenya!</Header>
       {rows.map((row, idx) => (
         <Div key={'home-' + idx}>
           <Image src={row.image} rounded />
