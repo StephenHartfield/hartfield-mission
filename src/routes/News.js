@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import axios from 'axios';
 import Image from 'react-bootstrap/Image';
-
-
+import {db} from '../firebase';
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 function News() {
     const [updatePost, setUpdatePost] = useState();
     const [updateDate, setUpdateDate] = useState();
+    const [newsData, setNewsData] = useState();
     const submit = (e) => {
         //axios.post
         console.log(setUpdateDate, setUpdatePost);
@@ -16,6 +17,32 @@ function News() {
     const resetButton = (f) => {
         
     }
+
+    const addNews = async (e) => {
+        e.preventDefault();  
+       
+        try {
+            const docRef = await addDoc(collection(db, "news"), {
+              someKey: "test",    
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+    }
+
+
+    const fetchData = async () => {
+        const data = await getDocs(collection(db, "news"));
+        const news = data.docs.map((doc) => ({...doc.data(), id:doc.id }));
+        setNewsData( news );
+        console.log( news );
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
     //pretend data from a database
     // display the title and paragraphs and can put in a different src for the image for now
     // configuration right now just defines how the layout looks
@@ -32,7 +59,9 @@ function News() {
                 ],
                 image: require('../assets/funny_stock_image.jpg'),
                 configuration: {
-                    image: 'left'
+                    image: 'left',
+                    animateClassLeft: 'bounceIn',
+                    animateClassRight: 'bounceIn'
                 }
             },
             {
@@ -75,6 +104,7 @@ function News() {
                 )
             )}
             </div>
+            <button onClick={addNews}>Add New Test</button>
         </div>
     )
 }
