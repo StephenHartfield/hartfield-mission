@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 
-function Navigation() {
+function Navigation({user}) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -20,6 +20,7 @@ function Navigation() {
             <Nav.Link href="/donate">Donate</Nav.Link>
             <Nav.Link href="/hartevanic">Hartevanic</Nav.Link>
             <Nav.Link href='/admin'>Admin</Nav.Link>
+            { user && <Nav.Link>{user.email}</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>

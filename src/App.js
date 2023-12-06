@@ -11,24 +11,38 @@ import Footer from './components/Footer';
 import { Image } from 'react-bootstrap';
 import Admin from './routes/Admin';
 import News from './routes/News';
-
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from 'react';
+import { auth } from './firebase';
 
 
 function App() {
+  const [user, setUser] = useState();
+
+  useEffect( () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        setUser(user);
+      } 
+    });
+  } )
+
   return (
     <div className="App">
-      <Navigation />
-      <div style={{height: "200px", overflow: 'hidden'}}><Image src={require('./assets/Kenya-landing.jpg')} class="img-responsive" style={{width: "100%", marginTop: "-200px"}}/></div>
+      <Navigation user={user} />
+      <div style={{ height: "200px", overflow: 'hidden' }}><Image src={require('./assets/Kenya-landing.jpg')} class="img-responsive" style={{ width: "100%", marginTop: "-200px" }} /></div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
-        <Route path="news" element={<News />} />
+        <Route path="news" element={<News user={user} />} />
         <Route path="contact" element={<Contact />} />
         <Route path="donate" element={<Donate />} />
         <Route path="hartevanic" element={<Hartevanic />} />
-        <Route path="admin" element={<Admin />} />
+        <Route path="admin" element={<Admin user={user} />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
