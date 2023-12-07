@@ -14,6 +14,7 @@ import News from './routes/News';
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from 'react';
 import { auth } from './firebase';
+import { storage } from './firebase';
 
 
 function App() {
@@ -29,12 +30,14 @@ function App() {
     });
   } )
 
+  const needToHidePrefix = 'gs://hartfield-mission.appspot.com/Images';
+
   return (
     <div className="App">
       <Navigation user={user} />
-      <div style={{ height: "200px", overflow: 'hidden' }}><Image src={require('./assets/Kenya-landing.jpg')} class="img-responsive" style={{ width: "100%", marginTop: "-200px" }} /></div>
+      <div style={{ height: "200px", overflow: 'hidden' }}><Image src={require('./assets/Kenya-landing.jpg')} className="img-responsive" style={{ width: "100%", marginTop: "-200px" }} /></div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home storage={storage} storagePath={needToHidePrefix} />} />
         <Route path="about" element={<About />} />
         <Route path="news" element={<News user={user} />} />
         <Route path="contact" element={<Contact />} />
