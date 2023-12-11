@@ -4,12 +4,13 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 import * as moment from 'moment';
 
 function News({ user }) {
-    const [complatePost, setCompletePost] = useState({});
+    const [completePost, setCompletePost] = useState({});
     const [updatePosts, setUpdatePosts] = useState(['']);
     const [newsData, setNewsData] = useState();
     const submit = (e) => {
         //axios.post
-        const newPost = { ...complatePost };
+        const newPost = { ...completePost };
+        //newPost['title'] = ??;
         newPost['date'] = moment().format();
         newPost['paragraphs'] = updatePosts;
         setCompletePost(newPost);
@@ -61,7 +62,6 @@ function News({ user }) {
     // image: 'left' means image on the left and paragraph on the right
     // image: 'right' means image on the right and paragraph on the left
     // image: 'main' means image takes up entire row
-
     /*const mockData = {
         entries: [
             {
@@ -104,6 +104,12 @@ function News({ user }) {
         setUpdatePosts(newPosts);
     }
 
+    const removeTextArea = () => {
+        const newPosts = updatePosts.concat();
+        newPosts.pop('');
+        setUpdatePosts(newPosts);
+    }
+
     const changePost = (value, idx) => {
         const newPosts = updatePosts.concat();
         newPosts[idx] = value;
@@ -117,14 +123,24 @@ function News({ user }) {
             <br></br>
             {user && user.email && (
                 <>
+                    <input type="text" placeholder="Title"></input>
+                    <br></br>
                     {updatePosts.map((p, idx) => (
                         <textarea name="updatePost" key={'p ' + idx}
                             id={'p ' + idx}
                             value={p}
                             onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter post here..."></textarea>
                     ))}
-
+                    <br></br>
+                    <label>Config
+                        <select>
+                            <option value="1">Left-Sided</option>
+                            <option value="2">Right-Sided</option>
+                            <option value="3">Picture Only</option>
+                        </select>
+                    </label>
                     <button onClick={addTextArea}>Add Paragraph</button>
+                    <button onClick={removeTextArea}>Remove Paragraph</button>
                     <br></br>
                     <button type="submit" onClick={submit}>Post</button>
                     <button type="reset">Clear</button>
