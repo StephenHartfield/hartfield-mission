@@ -92,7 +92,7 @@ function News({ user }) {
 
     const removeTextArea = () => {
         const newPosts = updatePosts.concat();
-        newPosts.pop('');
+        newPosts.splice(' ', 1);
         setUpdatePosts(newPosts);
     }
 
@@ -136,13 +136,11 @@ function News({ user }) {
                         </select>
                     </label>
                     <button onClick={addTextArea}>Add Paragraph</button>
-                    
                     <br></br>
                     <button type="submit" onClick={submit}>Post</button>
-                    <button type="reset">Clear</button>
+                    <button type="reset" onClick={resetButton}>Clear</button>
                 </>
             )}
-            <p>(blog-style entries would go here, being updated with most recent post at top)</p>
             <div style={{ margin: "0 10%" }}>
                 {newsData && newsData.map((g) => (
                     <p>{g.title}<br></br>

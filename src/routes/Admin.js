@@ -52,7 +52,7 @@ function Admin({user}) {
             )}
             { successMsg && (
                 <>
-                    <button onClick={logout}>LogOut</button>
+                    <button onClick={logout}>Log Out</button>
                     <br></br>
                     <p>{successMsg}</p>
                 </>
