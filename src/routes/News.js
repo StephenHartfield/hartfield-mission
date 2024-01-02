@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import * as moment from 'moment';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function News({ user }) {
     const [completePost, setCompletePost] = useState({});
@@ -77,7 +78,7 @@ function News({ user }) {
                             id={'p ' + idx}
                             value={p}
                             onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter post here..."></textarea>
-                        <button onClick={removeTextArea}>Remove Paragraph</button>
+                        <button onClick={removeTextArea}><DeleteIcon /></button>
                         </>
                     ))}
                     <br></br>
@@ -88,6 +89,7 @@ function News({ user }) {
                             <option value="3">Picture Only</option>
                         </select>
                     </label>
+                    <br></br>
                     <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
                     <br></br>
                     <button type="button">Upload Image</button>
