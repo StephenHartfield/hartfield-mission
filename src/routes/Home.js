@@ -26,7 +26,7 @@ function Home({storage, storagePath}) {
     (async () => {
       // thought here is instead of listing all inside of a folder (which we could do a folder for home page for instance)
       // we could instead have database give us certain strings that we should look up and we can search the storage for those images one at a time.
-      const listRef = await ref( storage, storagePath );
+      const listRef = await ref( storage, storagePath + 'Images' );
       const res = await listAll(listRef);
       res.items.forEach( async item => {
         const url = await getDownloadURL( item );

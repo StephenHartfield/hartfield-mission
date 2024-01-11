@@ -30,7 +30,7 @@ function App() {
     });
   } )
 
-  const needToHidePrefix = 'gs://hartfield-mission.appspot.com/Images';
+  const needToHidePrefix = 'gs://hartfield-mission.appspot.com/';
 
   return (
     <div className="App">
@@ -39,7 +39,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home storage={storage} storagePath={needToHidePrefix} />} />
         <Route path="about" element={<About />} />
-        <Route path="news" element={<News user={user} />} />
+        <Route path="news" element={<News user={user} storagePath={needToHidePrefix} />} />
         <Route path="contact" element={<Contact />} />
         <Route path="donate" element={<Donate />} />
         <Route path="hartevanic" element={<Hartevanic />} />
