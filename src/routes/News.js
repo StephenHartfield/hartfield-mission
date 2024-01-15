@@ -3,6 +3,7 @@ import { db, storage } from '../firebase';
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import * as moment from 'moment';
 import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function News({ user, storagePath }) {
     const [completePost, setCompletePost] = useState({});
@@ -127,7 +128,7 @@ function News({ user, storagePath }) {
                             id={'p ' + idx}
                             value={p}
                             onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter post here..."></textarea>
-                            <button onClick={removeTextArea}>Remove Paragraph</button>
+                            <button onClick={removeTextArea}><DeleteIcon /></button>
                         </>
                     ))}
                     <br></br>
@@ -154,7 +155,6 @@ function News({ user, storagePath }) {
                     </div> }
                     {progresspercent >= 99 && <div style={{color: 'green'}} className='animate__animated animate__fadeIn'>Complete</div>}
                     <br />
-                    <br />
                     <button type="submit" className="btn btn-success" onClick={submit}>Post</button>
                     <button type="reset" className="btn btn-danger" onClick={resetButton}>Clear</button>
                 </>
@@ -168,6 +168,8 @@ function News({ user, storagePath }) {
                                 <img src={g.image} width="100%" height="100%"></img>
                             </div>
                         </div>
+                        <button type="button">Edit Post</button>
+                        <button type="button">Remove Post</button>
                     </p>
                 )
                 )}
