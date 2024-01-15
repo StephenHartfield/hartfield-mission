@@ -77,8 +77,7 @@ function News({ user, storagePath }) {
         })
         setNewsData(withImages);
     }
-
-    useEffect(async () => {
+    const initialize = async () => {
         const listRef = await ref(storage, (storagePath + 'postImages'));
         const res = await listAll(listRef);
         const imageArr = await res.items.map(async item => {
@@ -87,6 +86,9 @@ function News({ user, storagePath }) {
         })
         const images = await Promise.all( imageArr );
         await fetchData( images );
+    }
+    useEffect( () => {
+        initialize();
     }, [])
 
     const addTextArea = () => {
@@ -112,6 +114,10 @@ function News({ user, storagePath }) {
         setImageToUpload(fileReadied);
         setImgUrl(URL.createObjectURL(event.target.files[0]));
     };
+
+    const editPost = (post) => {
+        console.log(post);
+    }
 
 
     return (
@@ -168,7 +174,7 @@ function News({ user, storagePath }) {
                                 <img src={g.image} width="100%" height="100%"></img>
                             </div>
                         </div>
-                        <button type="button">Edit Post</button>
+                        <button type="button" onClick={() => editPost(g)}>Edit Post</button>
                         <button type="button">Remove Post</button>
                     </p>
                 )
