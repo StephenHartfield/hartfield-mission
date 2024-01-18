@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { db, storage } from '../firebase';
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
 import * as moment from 'moment';
-import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
+import { deleteObject, getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function News({ user, storagePath }) {
@@ -65,18 +65,22 @@ function News({ user, storagePath }) {
         setNewsConfig('1');
     }
 
-    const fetchData = async ( imageObj ) => {
+    const fetchData = async (imageObj) => {
         const data = await getDocs(collection(db, "news"));
         const news = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         const sortedNews = news.sort((a, b) => -(moment(a.date).diff(moment(b.date))));
-        const withImages = sortedNews.map( np => {
+        const withImages = sortedNews.map(np => {
             if (np.image && np.image !== 'undefined' && typeof np.image === 'string') {
-                np.image = imageObj.find( obj => obj.hasOwnProperty( np.image ) )[np.image];
+                const objM = imageObj.find(obj => obj.hasOwnProperty(np.image));
+                if (objM) {
+                    np.image = objM[np.image];
+                }
             }
             return np;
         })
         setNewsData(withImages);
     }
+
     const initialize = async () => {
         const listRef = await ref(storage, (storagePath + 'postImages'));
         const res = await listAll(listRef);
@@ -84,10 +88,11 @@ function News({ user, storagePath }) {
             const url = await getDownloadURL(item);
             return { [item.name]: url };
         })
-        const images = await Promise.all( imageArr );
-        await fetchData( images );
+        const images = await Promise.all(imageArr);
+        await fetchData(images);
     }
-    useEffect( () => {
+
+    useEffect(() => {
         initialize();
     }, [])
 
@@ -115,8 +120,30 @@ function News({ user, storagePath }) {
         setImgUrl(URL.createObjectURL(event.target.files[0]));
     };
 
-    const editPost = (post) => {
-        console.log(post);
+    const deletePost = async (post) => {
+        if (post.image) {
+            const fileRef = ref(storage, post.image);
+            try {
+                await deleteObject(fileRef);
+            }
+            catch (e) {
+                console.log( 'failed to delete image ' + e);
+            }
+        }
+        const docRef = doc(db, "news", post.id );
+
+        try {
+            await deleteDoc(docRef);
+            refreshPosts( post.id );
+        }
+        catch (e) {
+            console.log( 'failed to delete post ' + e );
+        }
+    }
+
+    const refreshPosts = ( id ) => {
+        const newPosts = newsData.filter( d => d.id !== id );
+        setNewsData(newPosts);
     }
 
 
@@ -155,11 +182,11 @@ function News({ user, storagePath }) {
                         ref={hiddenFileInput}
                         style={{ display: 'none' }}
                     />
-                    {imageUrl && <img src={imageUrl} height="400" width="400"/>}
-                    {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{width: '250px', margin: '0 auto', border: '2px solid black'}}>
-                        <div style={{width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
-                    </div> }
-                    {progresspercent >= 99 && <div style={{color: 'green'}} className='animate__animated animate__fadeIn'>Complete</div>}
+                    {imageUrl && <img src={imageUrl} height="400" width="400" />}
+                    {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
+                        <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
+                    </div>}
+                    {progresspercent >= 99 && <div style={{ color: 'green' }} className='animate__animated animate__fadeIn'>Complete</div>}
                     <br />
                     <button type="submit" className="btn btn-success" onClick={submit}>Post</button>
                     <button type="reset" className="btn btn-danger" onClick={resetButton}>Clear</button>
@@ -174,7 +201,7 @@ function News({ user, storagePath }) {
                                 <img src={g.image} width="100%" height="100%"></img>
                             </div>
                         </div>
-                        <button type="button" onClick={() => editPost(g)}>Edit Post</button>
+                        <button type="button">Edit Post</button>
                         <button type="button">Remove Post</button>
                     </p>
                 )
