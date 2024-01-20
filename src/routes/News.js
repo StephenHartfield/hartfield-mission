@@ -4,6 +4,8 @@ import { collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore"
 import * as moment from 'moment';
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import './News.css';
 
 function News({ user, storagePath }) {
     const [completePost, setCompletePost] = useState({});
@@ -154,14 +156,14 @@ function News({ user, storagePath }) {
             <br></br>
             {user && user.email && (
                 <>
-                    <input name="newTitle" key={'newsTitle'} type="text" placeholder="Title" value={newsTitle} onChange={e => setNewsTitle(e.target.value)} />
+                    <input name="newTitle" key={'newsTitle'} type="text" className="title" placeholder="Title" value={newsTitle} onChange={e => setNewsTitle(e.target.value)} />
                     <br></br>
                     {updatePosts.map((p, idx) => (
                         <><textarea name="updatePost" key={'p ' + idx}
                             id={'p ' + idx}
                             value={p}
                             onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter post here..."></textarea>
-                            <button onClick={removeTextArea}><DeleteIcon /></button>
+                            <button onClick={removeTextArea}style={{backgroundColor:'red'}}><DeleteIcon /></button>
                         </>
                     ))}
                     <br></br>
@@ -194,15 +196,17 @@ function News({ user, storagePath }) {
             )}
             <div style={{ margin: "0 10%" }}>
                 {newsData && newsData.map((g) => (
-                    <p>{g.title}<br></br>
+                    <p><div className="title">{g.title}</div><br></br>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
                             <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }}>{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
                             <div style={{ margin: "0 10%", height: "200px", width: "200px" }}>
                                 <img src={g.image} width="100%" height="100%"></img>
                             </div>
                         </div>
-                        <button type="button">Edit Post</button>
-                        <button type="button">Remove Post</button>
+                        {user && user.email && (<>
+                            <button type="button"><EditIcon /></button>
+                            <button type="button" style={{backgroundColor:'red'}}><DeleteIcon /></button></>
+                        )}
                     </p>
                 )
                 )}
