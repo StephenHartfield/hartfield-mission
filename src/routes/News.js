@@ -23,6 +23,10 @@ function News({ user, storagePath }) {
         hiddenFileInput.current.click();
     }
     const submit = async (e) => {
+        if(!newsTitle) {
+            console.log('uh you forgot a title man...')
+            return;
+        }
         const newPost = { ...completePost };
         newPost['title'] = newsTitle;
         newPost['date'] = moment().format();
@@ -52,6 +56,7 @@ function News({ user, storagePath }) {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setShowProgressPercent(false);
+                        initialize();
                     });
                 }
             );
@@ -123,6 +128,10 @@ function News({ user, storagePath }) {
     };
 
     const deletePost = async (post) => {
+        if (!post) {
+            console.log('no post');
+            return;
+        }
         if (post.image) {
             const fileRef = ref(storage, post.image);
             try {
@@ -167,6 +176,8 @@ function News({ user, storagePath }) {
                         </>
                     ))}
                     <br></br>
+                    <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
+                    <br></br>
                     <label>Config
                         <select value={newsConfig} onChange={e => setNewsConfig(e.target.value)}>
                             <option value="1">Left-Sided</option>
@@ -174,7 +185,6 @@ function News({ user, storagePath }) {
                             <option value="3">Picture Only</option>
                         </select>
                     </label>
-                    <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
                     <br />
                     <br />
                     <button type="button" className='btn btn-outline-success' onClick={handleUploadChange}>Upload Image</button>
@@ -192,6 +202,7 @@ function News({ user, storagePath }) {
                     <br />
                     <button type="submit" className="btn btn-success" onClick={submit}>Post</button>
                     <button type="reset" className="btn btn-danger" onClick={resetButton}>Clear</button>
+                    <hr></hr>
                 </>
             )}
             <div style={{ margin: "0 10%" }}>
@@ -205,7 +216,7 @@ function News({ user, storagePath }) {
                         </div>
                         {user && user.email && (<>
                             <button type="button"><EditIcon /></button>
-                            <button type="button" style={{backgroundColor:'red'}}><DeleteIcon /></button></>
+                            <button type="button" style={{backgroundColor:'red'}} onClick={() => deletePost(g)}><DeleteIcon /></button></>
                         )}
                     </p>
                 )
