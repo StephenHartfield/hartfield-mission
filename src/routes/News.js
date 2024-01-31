@@ -133,6 +133,7 @@ function News({ user, storagePath }) {
             return;
         }
         if (post.image) {
+            if (window.confirm("Are you sure you want to delete?") === true){
             const fileRef = ref(storage, post.image);
             try {
                 await deleteObject(fileRef);
@@ -140,6 +141,9 @@ function News({ user, storagePath }) {
             catch (e) {
                 console.log( 'failed to delete image ' + e);
             }
+        }   else {
+            return;
+        }
         }
         const docRef = doc(db, "news", post.id );
 
