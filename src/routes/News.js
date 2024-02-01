@@ -110,9 +110,13 @@ function News({ user, storagePath }) {
     }
 
     const removeTextArea = () => {
-        const newPosts = updatePosts.concat();
+        if (window.confirm("Confirm deletion of paragraph?") === true){
+            const newPosts = updatePosts.concat();
         newPosts.splice(' ', 1);
         setUpdatePosts(newPosts);
+        } else {
+            return;
+        }
     }
 
     const changePost = (value, idx) => {
@@ -133,7 +137,7 @@ function News({ user, storagePath }) {
             return;
         }
         if (post.image) {
-            if (window.confirm("Are you sure you want to delete?") === true){
+            if (window.confirm("Confirm deletion of this post?") === true){
             const fileRef = ref(storage, post.image);
             try {
                 await deleteObject(fileRef);
@@ -175,7 +179,7 @@ function News({ user, storagePath }) {
                         <><textarea name="updatePost" key={'p ' + idx}
                             id={'p ' + idx}
                             value={p}
-                            onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter post here..."></textarea>
+                            onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter details here..."></textarea>
                             <button onClick={removeTextArea}style={{backgroundColor:'red'}}><DeleteIcon /></button>
                         </>
                     ))}
@@ -187,6 +191,7 @@ function News({ user, storagePath }) {
                             <option value="1">Left-Sided</option>
                             <option value="2">Right-Sided</option>
                             <option value="3">Picture Only</option>
+                            <option value="4">No Picture</option>
                         </select>
                     </label>
                     <br />
@@ -214,7 +219,7 @@ function News({ user, storagePath }) {
                     <p><div className="title">{g.title}</div><br></br>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
                             <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }}>{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
-                            <div style={{ margin: "0 10%", height: "200px", width: "200px" }}>
+                            <div style={{ margin: "0 10%", height: "200px", width: "200px",  display: g.configuration === "4" ? "none" : "block"}}>
                                 <img src={g.image} width="100%" height="100%"></img>
                             </div>
                         </div>
