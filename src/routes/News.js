@@ -23,7 +23,7 @@ function News({ user, storagePath }) {
         hiddenFileInput.current.click();
     }
     const submit = async (e) => {
-        if(!newsTitle) {
+        if (!newsTitle) {
             console.log('uh you forgot a title man...')
             return;
         }
@@ -32,7 +32,9 @@ function News({ user, storagePath }) {
         newPost['date'] = moment().format();
         newPost['paragraphs'] = updatePosts;
         newPost['configuration'] = newsConfig;
-        newPost['image'] = imageToUpload.name;
+        if (imageToUpload) {
+            newPost['image'] = imageToUpload.name;
+        }
         setCompletePost(newPost);
 
         try {
@@ -110,10 +112,10 @@ function News({ user, storagePath }) {
     }
 
     const removeTextArea = () => {
-        if (window.confirm("Confirm deletion of paragraph?") === true){
+        if (window.confirm("Confirm deletion of paragraph?") === true) {
             const newPosts = updatePosts.concat();
-        newPosts.splice(' ', 1);
-        setUpdatePosts(newPosts);
+            newPosts.splice(' ', 1);
+            setUpdatePosts(newPosts);
         } else {
             return;
         }
@@ -136,32 +138,31 @@ function News({ user, storagePath }) {
             console.log('no post');
             return;
         }
-        if (post.image) {
-            if (window.confirm("Confirm deletion of this post?") === true){
-            const fileRef = ref(storage, post.image);
+        if (window.confirm("Confirm deletion of this post?") === true) {
+            if (post.image) {
+
+                const fileRef = ref(storage, post.image);
+                try {
+                    await deleteObject(fileRef);
+                }
+                catch (e) {
+                    console.log('failed to delete image ' + e);
+                }
+            }
+            const docRef = doc(db, "news", post.id);
+
             try {
-                await deleteObject(fileRef);
+                await deleteDoc(docRef);
+                refreshPosts(post.id);
             }
             catch (e) {
-                console.log( 'failed to delete image ' + e);
+                console.log('failed to delete post ' + e);
             }
-        }   else {
-            return;
-        }
-        }
-        const docRef = doc(db, "news", post.id );
-
-        try {
-            await deleteDoc(docRef);
-            refreshPosts( post.id );
-        }
-        catch (e) {
-            console.log( 'failed to delete post ' + e );
         }
     }
 
-    const refreshPosts = ( id ) => {
-        const newPosts = newsData.filter( d => d.id !== id );
+    const refreshPosts = (id) => {
+        const newPosts = newsData.filter(d => d.id !== id);
         setNewsData(newPosts);
     }
 
@@ -180,7 +181,7 @@ function News({ user, storagePath }) {
                             id={'p ' + idx}
                             value={p}
                             onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter details here..."></textarea>
-                            <button onClick={removeTextArea}style={{backgroundColor:'red'}}><DeleteIcon /></button>
+                            <button onClick={removeTextArea} style={{ backgroundColor: 'red' }}><DeleteIcon /></button>
                         </>
                     ))}
                     <br></br>
@@ -196,18 +197,22 @@ function News({ user, storagePath }) {
                     </label>
                     <br />
                     <br />
-                    <button type="button" className='btn btn-outline-success' onClick={handleUploadChange}>Upload Image</button>
-                    <input
-                        type="file"
-                        onChange={handleChange}
-                        ref={hiddenFileInput}
-                        style={{ display: 'none' }}
-                    />
-                    {imageUrl && <img src={imageUrl} height="400" width="400" />}
-                    {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
-                        <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
-                    </div>}
-                    {progresspercent >= 99 && <div style={{ color: 'green' }} className='animate__animated animate__fadeIn'>Complete</div>}
+                    {newsConfig !== "4" && (
+                        <>
+                            <button type="button" className='btn btn-outline-success' onClick={handleUploadChange}>Upload Image</button>
+                            <input
+                                type="file"
+                                onChange={handleChange}
+                                ref={hiddenFileInput}
+                                style={{ display: 'none' }}
+                            />
+                            {imageUrl && <img src={imageUrl} height="400" width="400" />}
+                            {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
+                                <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
+                            </div>}
+                            {progresspercent >= 99 && <div style={{ color: 'green' }} className='animate__animated animate__fadeIn'>Complete</div>}
+                        </>
+                    )}
                     <br />
                     <button type="submit" className="btn btn-success" onClick={submit}>Post</button>
                     <button type="reset" className="btn btn-danger" onClick={resetButton}>Clear</button>
@@ -219,13 +224,13 @@ function News({ user, storagePath }) {
                     <p><div className="title">{g.title}</div><br></br>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
                             <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }}>{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
-                            <div style={{ margin: "0 10%", height: "200px", width: "200px",  display: g.configuration === "4" ? "none" : "block"}}>
+                            <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
                                 <img src={g.image} width="100%" height="100%"></img>
                             </div>
                         </div>
                         {user && user.email && (<>
                             <button type="button"><EditIcon /></button>
-                            <button type="button" style={{backgroundColor:'red'}} onClick={() => deletePost(g)}><DeleteIcon /></button></>
+                            <button type="button" style={{ backgroundColor: 'red' }} onClick={() => deletePost(g)}><DeleteIcon /></button></>
                         )}
                     </p>
                 )
