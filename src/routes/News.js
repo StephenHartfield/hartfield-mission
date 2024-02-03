@@ -18,6 +18,7 @@ function News({ user, storagePath }) {
     const hiddenFileInput = useRef(null);
     const [progresspercent, setProgresspercent] = useState(0);
     const [showProgressPercent, setShowProgressPercent] = useState();
+    const [displayPosts, setDisplayPosts] = useState(true);
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -166,6 +167,18 @@ function News({ user, storagePath }) {
         setNewsData(newPosts);
     }
 
+    const newsDisplay = () => {
+        if (displayPosts === true) {
+            setDisplayPosts(false);
+            console.log("Turned off");
+        }
+        if (displayPosts === false) {
+            setDisplayPosts(true);
+            console.log("Turned on");
+        }
+        console.log("Toggle Triggered");
+    }
+
 
     return (
         <div>
@@ -220,6 +233,9 @@ function News({ user, storagePath }) {
                 </>
             )}
             <div style={{ margin: "0 10%" }}>
+                <button type="button" onClick={newsDisplay}>Toggle Posts</button>
+                {displayPosts === true && (
+                    <>
                 {newsData && newsData.map((g) => (
                     <p><div className="title">{g.title}</div><br></br>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
@@ -234,7 +250,7 @@ function News({ user, storagePath }) {
                         )}
                     </p>
                 )
-                )}
+                )}</>)}
             </div>
         </div>
     )
