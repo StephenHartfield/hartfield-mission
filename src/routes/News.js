@@ -6,6 +6,7 @@ import { deleteObject, getDownloadURL, listAll, ref, uploadBytesResumable } from
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import './News.css';
+import { WindowSharp } from '@mui/icons-material';
 
 function News({ user, storagePath }) {
     const [completePost, setCompletePost] = useState({});
@@ -19,12 +20,14 @@ function News({ user, storagePath }) {
     const [progresspercent, setProgresspercent] = useState(0);
     const [showProgressPercent, setShowProgressPercent] = useState();
     const [displayPosts, setDisplayPosts] = useState(true);
+    const [editPosts, setEditPosts] = useState(true);
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
     }
     const submit = async (e) => {
         if (!newsTitle) {
+            alert("No title! Can't post!")
             console.log('uh you forgot a title man...')
             return;
         }
@@ -66,13 +69,24 @@ function News({ user, storagePath }) {
         } catch (e) {
             console.error("Error uploading Image");
         }
-
-    }
-
-    const resetButton = (f) => {
         setUpdatePosts(['']);
         setNewsTitle('');
         setNewsConfig('1');
+        setImgUrl('');
+        setProgresspercent(0);
+    }
+
+    const resetButton = (f) => {
+        if (window.confirm("Clear Post Content?") === true) {
+            setUpdatePosts(['']);
+            setNewsTitle('');
+            setNewsConfig('1');
+            setImgUrl('');
+            setProgresspercent(0);
+        } else {
+            return;
+        }
+
     }
 
     const fetchData = async (imageObj) => {
@@ -179,16 +193,23 @@ function News({ user, storagePath }) {
         console.log("Toggle Triggered");
     }
 
+    const editPost = async (post) => {
+        if (window.confirm("Edit '" + post.title + "' Post?") === true) {
+            window.scrollTo({ top:0, behavior: 'smooth'});
+        } else {
+            return;
+        }
+    }
 
     return (
         <div>
             <h1>Hartfield Mission News</h1>
             <h5>Catch up on the Hartfield Mission here!</h5>
-            <br></br>
+            <br />
             {user && user.email && (
                 <>
                     <input name="newTitle" key={'newsTitle'} type="text" className="title" placeholder="Title" value={newsTitle} onChange={e => setNewsTitle(e.target.value)} />
-                    <br></br>
+                    <br />
                     {updatePosts.map((p, idx) => (
                         <><textarea name="updatePost" key={'p ' + idx}
                             id={'p ' + idx}
@@ -197,9 +218,9 @@ function News({ user, storagePath }) {
                             <button onClick={removeTextArea} style={{ backgroundColor: 'red' }}><DeleteIcon /></button>
                         </>
                     ))}
-                    <br></br>
+                    <br />
                     <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
-                    <br></br>
+                    <br />
                     <label>Config
                         <select value={newsConfig} onChange={e => setNewsConfig(e.target.value)}>
                             <option value="1">Left-Sided</option>
@@ -219,7 +240,7 @@ function News({ user, storagePath }) {
                                 ref={hiddenFileInput}
                                 style={{ display: 'none' }}
                             />
-                            {imageUrl && <img src={imageUrl} height="400" width="400" />}
+                            {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl}/>}
                             {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
                                 <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
                             </div>}
@@ -233,24 +254,26 @@ function News({ user, storagePath }) {
                 </>
             )}
             <div style={{ margin: "0 10%" }}>
-                <button type="button" onClick={newsDisplay}>Toggle Posts</button>
+                {user && user.email && (<>
+                    <button type="button" onClick={newsDisplay}>Toggle Posts</button>
+                </>)}
                 {displayPosts === true && (
                     <>
-                {newsData && newsData.map((g) => (
-                    <p><div className="title">{g.title}</div><br></br>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
-                            <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }}>{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
-                            <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
-                                <img src={g.image} width="100%" height="100%"></img>
-                            </div>
-                        </div>
-                        {user && user.email && (<>
-                            <button type="button"><EditIcon /></button>
-                            <button type="button" style={{ backgroundColor: 'red' }} onClick={() => deletePost(g)}><DeleteIcon /></button></>
-                        )}
-                    </p>
-                )
-                )}</>)}
+                        {newsData && newsData.map((g) => (
+                            <p><div className="title">{g.title}</div><br />
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
+                                    <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }}>{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
+                                    <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
+                                        <img src={g.image} width="100%" height="100%"></img>
+                                    </div>
+                                </div>
+                                {user && user.email && (<>
+                                    <button type="button" onClick={() => editPost(g)}><EditIcon /></button>
+                                    <button type="button" style={{ backgroundColor: 'red' }} onClick={() => deletePost(g)}><DeleteIcon /></button></>
+                                )}
+                            </p>
+                        )
+                        )}</>)}
             </div>
         </div>
     )
