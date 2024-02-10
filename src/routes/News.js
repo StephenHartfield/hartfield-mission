@@ -208,12 +208,13 @@ function News({ user, storagePath }) {
             <br />
             {user && user.email && (
                 <>
-                    <input name="newTitle" key={'newsTitle'} type="text" className="title" placeholder="Title" value={newsTitle} onChange={e => setNewsTitle(e.target.value)} />
+                    <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={newsTitle} onChange={e => setNewsTitle(e.target.value)} />
                     <br />
                     {updatePosts.map((p, idx) => (
                         <><textarea name="updatePost" key={'p ' + idx}
                             id={'p ' + idx}
                             value={p}
+                            className="paragraph paragraphInput"
                             onChange={e => changePost(e.target.value, idx)} rows="5" cols="50" placeholder="Enter details here..."></textarea>
                             <button onClick={removeTextArea} style={{ backgroundColor: 'red' }}><DeleteIcon /></button>
                         </>
@@ -262,7 +263,7 @@ function News({ user, storagePath }) {
                         {newsData && newsData.map((g) => (
                             <p><div className="title">{g.title}</div><br />
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
-                                    <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }}>{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
+                                    <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
                                     <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
                                         <img src={g.image} width="100%" height="100%"></img>
                                     </div>
