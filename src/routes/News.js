@@ -20,7 +20,7 @@ function News({ user, storagePath }) {
     const [progresspercent, setProgresspercent] = useState(0);
     const [showProgressPercent, setShowProgressPercent] = useState();
     const [displayPosts, setDisplayPosts] = useState(true);
-    const [editPosts, setEditPosts] = useState(true);
+    const [editPosts, setEditPosts] = useState();
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -195,10 +195,17 @@ function News({ user, storagePath }) {
 
     const editPost = async (post) => {
         if (window.confirm("Edit '" + post.title + "' Post?") === true) {
-            window.scrollTo({ top:0, behavior: 'smooth'});
+            setEditPosts(post);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
             return;
         }
+    }
+
+    const editParagraphs = (value, idx) => {
+        const newPosts = editPosts.paragraphs.concat();
+        newPosts[idx] = value;
+        setEditPosts({...editPosts, paragraphs: newPosts});
     }
 
     return (
@@ -241,7 +248,7 @@ function News({ user, storagePath }) {
                                 ref={hiddenFileInput}
                                 style={{ display: 'none' }}
                             />
-                            {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl}/>}
+                            {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl} />}
                             {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
                                 <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
                             </div>}
@@ -275,6 +282,51 @@ function News({ user, storagePath }) {
                             </p>
                         )
                         )}</>)}
+                {editPosts && (
+                    <>
+                        <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({...editPosts, title: e.target.value})} />
+                        <br />
+                        {editPosts.paragraphs.map((p, idx) => (
+                            <><textarea name="updatePost" key={'p ' + idx}
+                                id={'p ' + idx}
+                                value={p}
+                                className="paragraph paragraphInput"
+                                onChange={e => editParagraphs(e.target.value, idx)} rows="5" cols="50" placeholder="Enter details here..."></textarea>
+                                <button onClick={removeTextArea} style={{ backgroundColor: 'red' }}><DeleteIcon /></button>
+                            </>
+                        ))}
+                        <br />
+                        <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
+                        <br />
+                        <label>Config
+                            <select value={newsConfig} onChange={e => setNewsConfig(e.target.value)}>
+                                <option value="1">Left-Sided</option>
+                                <option value="2">Right-Sided</option>
+                                <option value="3">Picture Only</option>
+                                <option value="4">No Picture</option>
+                            </select>
+                        </label>
+                        <br />
+                        <br />
+                        {newsConfig !== "4" && (
+                            <>
+                                <button type="button" className='btn btn-outline-success' onClick={handleUploadChange}>Upload Image</button>
+                                <input
+                                    type="file"
+                                    onChange={handleChange}
+                                    ref={hiddenFileInput}
+                                    style={{ display: 'none' }}
+                                />
+                                {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl} />}
+                                {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
+                                    <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
+                                </div>}
+                                {progresspercent >= 99 && <div style={{ color: 'green' }} className='animate__animated animate__fadeIn'>Complete</div>}
+                            </>
+                        )}
+                        <br />
+                    </>
+                )}
             </div>
         </div>
     )
