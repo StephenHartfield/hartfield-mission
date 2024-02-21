@@ -193,10 +193,9 @@ function News({ user, storagePath }) {
         console.log("Toggle Triggered");
     }
 
-    const editPost = async (post) => {
+    const editPost = (post) => {
         if (window.confirm("Edit '" + post.title + "' Post?") === true) {
             setEditPosts(post);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
             return;
         }
@@ -205,7 +204,19 @@ function News({ user, storagePath }) {
     const editParagraphs = (value, idx) => {
         const newPosts = editPosts.paragraphs.concat();
         newPosts[idx] = value;
-        setEditPosts({...editPosts, paragraphs: newPosts});
+        setEditPosts({ ...editPosts, paragraphs: newPosts });
+    }
+
+    const cancelEdit = () => {
+        if (window.confirm("Cancel all edits?") === true) {
+            setEditPosts();
+        } else {
+            return;
+        }
+    }
+
+    const confirmEdit = async (post) => {
+
     }
 
     return (
@@ -281,10 +292,12 @@ function News({ user, storagePath }) {
                                 )}
                             </p>
                         )
-                        )}</>)}
+                        )}
+                        <hr />
+                    </>)}
                 {editPosts && (
                     <>
-                        <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({...editPosts, title: e.target.value})} />
+                        <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({ ...editPosts, title: e.target.value })} />
                         <br />
                         {editPosts.paragraphs.map((p, idx) => (
                             <><textarea name="updatePost" key={'p ' + idx}
@@ -299,7 +312,7 @@ function News({ user, storagePath }) {
                         <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
                         <br />
                         <label>Config
-                            <select value={newsConfig} onChange={e => setNewsConfig(e.target.value)}>
+                            <select value={editPosts.configuration} onChange={e => setEditPosts({ ...editPosts, configuration: e.target.value })}>
                                 <option value="1">Left-Sided</option>
                                 <option value="2">Right-Sided</option>
                                 <option value="3">Picture Only</option>
@@ -308,7 +321,7 @@ function News({ user, storagePath }) {
                         </label>
                         <br />
                         <br />
-                        {newsConfig !== "4" && (
+                        {editPosts.configuration !== "4" && (
                             <>
                                 <button type="button" className='btn btn-outline-success' onClick={handleUploadChange}>Upload Image</button>
                                 <input
@@ -325,6 +338,9 @@ function News({ user, storagePath }) {
                             </>
                         )}
                         <br />
+                        <button className='btn btn-success'>Repost</button>
+                        <button className='btn btn-danger' onClick={cancelEdit}>Cancel</button>
+                        <hr />
                     </>
                 )}
             </div>
