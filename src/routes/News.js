@@ -121,6 +121,11 @@ function News({ user, storagePath }) {
     }, [])
 
     const addTextArea = () => {
+        if (editPosts === true) {
+            const newPosts = editPosts.paragraphs.concat();
+            newPosts.push('');
+            setEditPosts({ ...editPosts, paragraphs: newPosts });
+        }
         const newPosts = updatePosts.concat();
         newPosts.push('');
         setUpdatePosts(newPosts);
@@ -215,8 +220,21 @@ function News({ user, storagePath }) {
         }
     }
 
-    const confirmEdit = async (post) => {
-
+    const confirmEdit = async (e) => {
+        if (!editPosts.title) {
+            alert("No title! Can't post!")
+            console.log('uh you forgot a title man...')
+            return;
+        }
+        const newPost = { ...completePost };
+        newPost['title'] = editPosts.title;
+        //newPost['date'] = moment().format();  not changing date on edit submission keeps date the same, helpful for correct placement in post lineup. (right?)
+        newPost['paragraphs'] = editPosts.paragraphs;
+        newPost['configuration'] = editPosts.configuration;
+        if (imageToUpload) {
+            newPost['image'] = imageToUpload.name;
+        }
+        setCompletePost(newPost);
     }
 
     return (
@@ -227,6 +245,7 @@ function News({ user, storagePath }) {
             {user && user.email && (
                 <>
                     <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={newsTitle} onChange={e => setNewsTitle(e.target.value)} />
+                    <br />
                     <br />
                     {updatePosts.map((p, idx) => (
                         <><textarea name="updatePost" key={'p ' + idx}
@@ -299,6 +318,7 @@ function News({ user, storagePath }) {
                     <>
                         <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({ ...editPosts, title: e.target.value })} />
                         <br />
+                        <br />
                         {editPosts.paragraphs.map((p, idx) => (
                             <><textarea name="updatePost" key={'p ' + idx}
                                 id={'p ' + idx}
@@ -338,7 +358,7 @@ function News({ user, storagePath }) {
                             </>
                         )}
                         <br />
-                        <button className='btn btn-success'>Repost</button>
+                        <button className='btn btn-success' onClick={confirmEdit}>Repost</button>
                         <button className='btn btn-danger' onClick={cancelEdit}>Cancel</button>
                         <hr />
                     </>

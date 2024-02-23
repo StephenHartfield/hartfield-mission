@@ -16,22 +16,22 @@ const Div = styled.div`
   align-items: center;
 `;
 
-function Home({storage, storagePath}) {
+function Home({ storage, storagePath }) {
   const [exampleUrl, setExampleUrl] = useState();
   const rows = [
     { text: 'abc', image: require('../assets/Kenya-landing.jpg') }
   ]
 
-  useEffect( () => {
+  useEffect(() => {
     (async () => {
       // thought here is instead of listing all inside of a folder (which we could do a folder for home page for instance)
       // we could instead have database give us certain strings that we should look up and we can search the storage for those images one at a time.
-      const listRef = await ref( storage, storagePath + 'Images' );
+      const listRef = await ref(storage, storagePath + 'Images');
       const res = await listAll(listRef);
-      res.items.forEach( async item => {
-        const url = await getDownloadURL( item );
-        console.log( url );
-        setExampleUrl( url );
+      res.items.forEach(async item => {
+        const url = await getDownloadURL(item);
+        console.log(url);
+        setExampleUrl(url);
       })
     })();
   }, [])
@@ -46,8 +46,10 @@ function Home({storage, storagePath}) {
         </Div>
       ))}
       <p>example Youtube embed</p>
-      <ReactPlayer url={'https://www.youtube.com/watch?v=jiXChF4oQJo'} />
-      {exampleUrl && <img src={exampleUrl} /> }
+      <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <ReactPlayer url={'https://www.youtube.com/watch?v=jiXChF4oQJo'} />
+      </div>
+      {exampleUrl && <img src={exampleUrl} />}
       Example image from storage
     </div>
   );
