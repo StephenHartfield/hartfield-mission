@@ -5,8 +5,7 @@ import * as moment from 'moment';
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import './News.css';
-import { WindowSharp } from '@mui/icons-material';
+import Post from '../components/Post';
 
 function News({ user, storagePath }) {
     const [completePost, setCompletePost] = useState({});
@@ -321,53 +320,7 @@ function News({ user, storagePath }) {
                         <hr />
                     </>)}
                 {editPosts && (
-                    <>
-                        <input name="newTitle" key={'newsTitle'} id="edit" type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({ ...editPosts, title: e.target.value })} />
-                        <br />
-                        <br />
-                        {editPosts.paragraphs.map((p, idx) => (
-                            <><textarea name="updatePost" key={'p ' + idx}
-                                id={'p ' + idx}
-                                value={p}
-                                className="paragraph paragraphInput"
-                                onChange={e => editParagraphs(e.target.value, idx)} rows="5" cols="50" placeholder="Enter details here..."></textarea>
-                                <button onClick={removeTextArea} style={{ backgroundColor: 'red' }}><DeleteIcon /></button>
-                            </>
-                        ))}
-                        <br />
-                        <button className="btn btn-primary" onClick={() => addTextArea(true)}>Add Paragraph</button>
-                        <br />
-                        <label>Config
-                            <select value={editPosts.configuration} onChange={e => setEditPosts({ ...editPosts, configuration: e.target.value })}>
-                                <option value="1">Left-Sided</option>
-                                <option value="2">Right-Sided</option>
-                                <option value="3">Picture Only</option>
-                                <option value="4">No Picture</option>
-                            </select>
-                        </label>
-                        <br />
-                        <br />
-                        {editPosts.configuration !== "4" && (
-                            <>
-                                <button type="button" className='btn btn-outline-success' onClick={handleUploadChange}>Upload Image</button>
-                                <input
-                                    type="file"
-                                    onChange={handleChange}
-                                    ref={hiddenFileInput}
-                                    style={{ display: 'none' }}
-                                />
-                                {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl} />}
-                                {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
-                                    <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
-                                </div>}
-                                {progresspercent >= 99 && <div style={{ color: 'green' }} className='animate__animated animate__fadeIn'>Complete</div>}
-                            </>
-                        )}
-                        <br />
-                        <button className='btn btn-success' onClick={confirmEdit}>Repost</button>
-                        <button className='btn btn-danger' onClick={cancelEdit}>Cancel</button>
-                        <hr />
-                    </>
+                    <Post data={editPosts} updateData={setEditPosts} submit={{fn:confirmEdit, text:'Repost'}} cancel={{fn:cancelEdit, text:'Cancel'}} />
                 )}
             </div>
         </div>
