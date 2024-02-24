@@ -1,0 +1,16 @@
+.title {
+    font-size: xx-large;
+}
+
+.titleInput {
+    background-color: lightgray;
+    border: 3px solid black;
+}
+
+.paragraph {
+    background-color: lightgray;
+}
+
+.paragraphInput {
+    border: 3px solid black;
+}

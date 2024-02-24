@@ -8,7 +8,7 @@ const EditWrapper = styled.div`
 
 const TitleInput = styled.input`
   background-color: lightgray;
-  border-width: 5px solid black;
+  border: 3px solid black;
   font-size: xx-large;
   margin-bottom: 20px;
 `;

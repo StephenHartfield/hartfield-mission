@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import './News.css';
 import Post from '../components/Post';
 
 function News({ user, storagePath }) {
@@ -240,6 +241,8 @@ function News({ user, storagePath }) {
             newPost['image'] = imageToUpload.name;
         }
         setCompletePost(newPost);
+        console.log ("This is the part where it actually reuploads it into the server, replacing the original post, and so on");
+        setEditPosts();
     }
 
     return (
@@ -305,7 +308,7 @@ function News({ user, storagePath }) {
                         {newsData && newsData.map((g) => (
                             <p><div className="title">{g.title}</div><br />
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
-                                    <div style={{ margin: "0 10%", width: "200px", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
+                                    <div style={{ margin: "0 10%", width: "20%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p) => (<p>{p}</p>))}</div>
                                     <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
                                         <img src={g.image} width="100%" height="100%"></img>
                                     </div>
