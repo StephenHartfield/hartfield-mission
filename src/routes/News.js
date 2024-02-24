@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { db, storage } from '../firebase';
-import { collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import * as moment from 'moment';
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -120,15 +120,17 @@ function News({ user, storagePath }) {
         initialize();
     }, [])
 
-    const addTextArea = () => {
-        if (editPosts === true) {
+    const addTextArea = (isEdit) => {
+        if (isEdit) {
             const newPosts = editPosts.paragraphs.concat();
             newPosts.push('');
             setEditPosts({ ...editPosts, paragraphs: newPosts });
+        } else {
+            const newPosts = updatePosts.concat();
+            newPosts.push('');
+            setUpdatePosts(newPosts);
         }
-        const newPosts = updatePosts.concat();
-        newPosts.push('');
-        setUpdatePosts(newPosts);
+
     }
 
     const removeTextArea = () => {
@@ -201,6 +203,10 @@ function News({ user, storagePath }) {
     const editPost = (post) => {
         if (window.confirm("Edit '" + post.title + "' Post?") === true) {
             setEditPosts(post);
+            setTimeout(() => {
+                const inputEL = document.getElementById("edit");
+                inputEL.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+            }, 500)
         } else {
             return;
         }
@@ -257,7 +263,7 @@ function News({ user, storagePath }) {
                         </>
                     ))}
                     <br />
-                    <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
+                    <button className="btn btn-primary" onClick={() => addTextArea(false)}>Add Paragraph</button>
                     <br />
                     <label>Config
                         <select value={newsConfig} onChange={e => setNewsConfig(e.target.value)}>
@@ -316,7 +322,7 @@ function News({ user, storagePath }) {
                     </>)}
                 {editPosts && (
                     <>
-                        <input name="newTitle" key={'newsTitle'} type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({ ...editPosts, title: e.target.value })} />
+                        <input name="newTitle" key={'newsTitle'} id="edit" type="text" className="title titleInput" placeholder="Title..." value={editPosts.title} onChange={e => setEditPosts({ ...editPosts, title: e.target.value })} />
                         <br />
                         <br />
                         {editPosts.paragraphs.map((p, idx) => (
@@ -329,7 +335,7 @@ function News({ user, storagePath }) {
                             </>
                         ))}
                         <br />
-                        <button className="btn btn-primary" onClick={addTextArea}>Add Paragraph</button>
+                        <button className="btn btn-primary" onClick={() => addTextArea(true)}>Add Paragraph</button>
                         <br />
                         <label>Config
                             <select value={editPosts.configuration} onChange={e => setEditPosts({ ...editPosts, configuration: e.target.value })}>
