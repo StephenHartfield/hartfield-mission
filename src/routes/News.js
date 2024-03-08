@@ -212,12 +212,6 @@ function News({ user, storagePath }) {
         }
     }
 
-    const editParagraphs = (value, idx) => {
-        const newPosts = editPosts.paragraphs.concat();
-        newPosts[idx] = value;
-        setEditPosts({ ...editPosts, paragraphs: newPosts });
-    }
-
     const cancelEdit = () => {
         if (window.confirm("Cancel all edits?") === true) {
             setEditPosts();
@@ -241,10 +235,9 @@ function News({ user, storagePath }) {
             newPost['image'] = imageToUpload.name;
         }
         setCompletePost(newPost);
-        console.log("This is the part where it actually reuploads it into the server, replacing the original post, and so on");
         try {
             const docRef = await updateDoc(doc(db, "news", editPosts.id), newPost);
-            console.log("Document written with ID: ", editPosts.id);
+            console.log("Document written with ID: ", docRef.id);
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -338,7 +331,7 @@ function News({ user, storagePath }) {
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
                                     <div style={{ margin: "0 10%", width: "20%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index}>{p}</p>))}</div>
                                     <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
-                                        <img src={g.image} width="100%" height="100%"></img>
+                                        <img src={g.image} width="100%" height="100%" alt=''></img>
                                     </div>
                                 </div>
                                 {user && user.email && (<>
