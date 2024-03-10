@@ -37,9 +37,8 @@ const configs = [
   { label: 'No Picture', value: '4' }
 ];
 
-function Post({ data, updateData, submit, cancel }) {
+function Post({ data, updateData, submit, cancel, setImageToUpload }) {
   const hiddenFileInput = useRef(null);
-  const [imageToUpload, setImageToUpload] = useState("")
   const [imageUrl, setImgUrl] = useState();
   const [progresspercent, setProgresspercent] = useState(0);
   const [showProgressPercent, setShowProgressPercent] = useState();
@@ -80,6 +79,8 @@ function Post({ data, updateData, submit, cancel }) {
     const fileReadied = event.target.files[0];
     setImageToUpload(fileReadied);
     setImgUrl(URL.createObjectURL(event.target.files[0]));
+    changeProp(fileReadied.name, 'image');
+    console.log(fileReadied)
   };
 
   return (

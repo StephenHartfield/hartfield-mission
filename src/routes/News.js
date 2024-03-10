@@ -226,23 +226,14 @@ function News({ user, storagePath }) {
             console.log('uh you forgot a title man...')
             return;
         }
-        const newPost = { ...completePost };
-        newPost['title'] = editPosts.title;
-        //newPost['date'] = moment().format();
-        newPost['paragraphs'] = editPosts.paragraphs;
-        newPost['configuration'] = editPosts.configuration;
-        if (imageToUpload) {
-            newPost['image'] = imageToUpload.name;
-        }
-        setCompletePost(newPost);
         try {
-            const docRef = await updateDoc(doc(db, "news", editPosts.id), newPost);
-            console.log("Document written with ID: ", docRef.id);
+            await updateDoc(doc(db, "news", editPosts.id), editPosts);
+            console.log("Document written with ID: ", editPosts.id);
         } catch (e) {
             console.error("Error adding document: ", e);
         }
         try {
-            const storageRef = ref(storage, `postImages/${imageToUpload.name}`);
+            const storageRef = ref(storage, `postImages/${editPosts.image}`);
             const uploadTask = uploadBytesResumable(storageRef, imageToUpload);
             setShowProgressPercent(true);
             uploadTask.on("state_changed",
@@ -344,7 +335,7 @@ function News({ user, storagePath }) {
                         <hr />
                     </>)}
                 {editPosts && (
-                    <Post data={editPosts} updateData={setEditPosts} submit={{ fn: confirmEdit, text: 'Repost' }} cancel={{ fn: cancelEdit, text: 'Cancel' }} />
+                    <Post data={editPosts} updateData={setEditPosts} submit={{ fn: confirmEdit, text: 'Repost' }} cancel={{ fn: cancelEdit, text: 'Cancel' }} setImageToUpload={setImageToUpload} />
                 )}
             </div>
         </div>
