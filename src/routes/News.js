@@ -206,7 +206,7 @@ function News({ user, storagePath }) {
             setTimeout(() => {
                 const inputEL = document.getElementById("edit");
                 inputEL.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-            }, 500)
+            }, 50)
         } else {
             return;
         }
@@ -259,8 +259,8 @@ function News({ user, storagePath }) {
 
     return (
         <div>
-            <h1>Hartfield Mission News</h1>
-            <h5>Catch up on the Hartfield Mission here!</h5>
+            <h1 className='animate__animated animate__bounceIn'>Hartfield Mission News</h1>
+            <h5 className='animate__animated animate__fadeIn'>Catch up on the Hartfield Mission here!</h5>
             <br />
             {user && user.email && (
                 <>
@@ -311,7 +311,7 @@ function News({ user, storagePath }) {
                     <hr></hr>
                 </>
             )}
-            <div style={{ margin: "0 10%" }}>
+            <div style={{ margin: "0 5%" }}>
                 {user && user.email && (<>
                     <button type="button" onClick={newsDisplay}>Toggle Posts</button>
                 </>)}
