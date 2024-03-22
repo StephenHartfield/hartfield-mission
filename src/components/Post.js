@@ -114,7 +114,7 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
             ref={hiddenFileInput}
             style={{ display: 'none' }}
           />
-          {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl} />}
+          {imageUrl && <img src={imageUrl} width="400" alt={imageUrl} />}
           {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
             <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
           </div>}

@@ -258,7 +258,7 @@ function News({ user, storagePath }) {
     }
 
     return (
-        <div>
+        <div className='backdrop'>
             <h1 className='animate__animated animate__bounceIn'>Hartfield Mission News</h1>
             <h5 className='animate__animated animate__fadeIn'>Catch up on the Hartfield Mission here!</h5>
             <br />
@@ -298,7 +298,7 @@ function News({ user, storagePath }) {
                                 ref={hiddenFileInput}
                                 style={{ display: 'none' }}
                             />
-                            {imageUrl && <img src={imageUrl} height="400" width="400" alt={imageUrl} />}
+                            {imageUrl && <img src={imageUrl} width="400" alt={imageUrl} />}
                             {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
                                 <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
                             </div>}
@@ -311,7 +311,7 @@ function News({ user, storagePath }) {
                     <hr></hr>
                 </>
             )}
-            <div style={{ margin: "0 5%" }}>
+            <div className='middledrop' style={{ margin: "0 5%" }}>
                 {user && user.email && (<>
                     <button type="button" onClick={newsDisplay}>Toggle Posts</button>
                 </>)}
@@ -320,8 +320,8 @@ function News({ user, storagePath }) {
                         {newsData && newsData.map((g, idx) => (
                             <div key={g.title + idx}><div className="title">{g.title}</div><br />
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
-                                    <div style={{ margin: "0 10%", width: "20%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index}>{p}</p>))}</div>
-                                    <div style={{ margin: "0 10%", height: "200px", width: "200px", display: g.configuration === "4" ? "none" : "block" }}>
+                                    <div style={{ margin: "0 10%", width: "70%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index}>{p}</p>))}</div>
+                                    <div style={{ margin: "0 10%", width: "20%", display: g.configuration === "4" ? "none" : "block" }}>
                                         <img src={g.image} width="100%" height="100%" alt=''></img>
                                     </div>
                                 </div>

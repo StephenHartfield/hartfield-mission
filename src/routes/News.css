@@ -1,5 +1,6 @@
 .title {
     font-size: xx-large;
+    font-weight: 550;
 }
 
 .titleInput {
@@ -13,4 +14,12 @@
 
 .paragraphInput {
     border: 3px solid black;
+}
+
+.backdrop {
+    background-color:bisque;
+}
+
+.middledrop {
+    background-color:azure;
 }
