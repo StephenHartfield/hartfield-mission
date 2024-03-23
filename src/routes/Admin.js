@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
+//import { styled } from 'styled-components';
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from '../firebase';
+import './Admin.css';
 
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Div = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 function Admin({user}) {
     const [userName, setUserName] = useState();
@@ -44,20 +45,23 @@ function Admin({user}) {
             { !successMsg && (
                 <>
                     <form onSubmit={submit}>
-                    <h3>Login:</h3>
-                    <input type="text" placeholder="Username" name="userName" id="userName" value={userName} onChange={e => setUserName(e.target.value)} /> <br></br>
-                    <input type="password" placeholder="Password" name="userPWord" id="userPWord" value={userPWord} onChange={e => setUserPWord(e.target.value)} />
-                    <br></br>
-                    <button type="submit" onClick={submit}>Submit</button>
-                    <button type="reset">Clear</button>
+                    <h3 className="textOnScreen" >Login:</h3>
+                    <input className='admininput' type="text" placeholder="Username" name="userName" id="userName" value={userName} onChange={e => setUserName(e.target.value)} /> <br></br>
+                    <input className='admininput' type="password" placeholder="Password" name="userPWord" id="userPWord" value={userPWord} onChange={e => setUserPWord(e.target.value)} />
+                    <br />
+                    <br />
+                    <button className='btn btn-success' type="submit" onClick={submit}>Submit</button>
+                    <button className='btn btn-danger' type="reset">Clear</button>
                     </form>
                 </>
             )}
             { successMsg && (
                 <>
-                    <button onClick={logout}>Log Out</button>
-                    <br></br>
                     <p>{successMsg}</p>
+                    <br />
+                    <br />
+                    <button className="btn btn-primary" onClick={logout}>Log Out</button>
+                    <br /><br />
                 </>
             )}
         </div>

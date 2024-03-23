@@ -36,7 +36,7 @@ function News({ user, storagePath }) {
         newPost['date'] = moment().format();
         newPost['paragraphs'] = updatePosts;
         newPost['configuration'] = newsConfig;
-        if (imageToUpload) {
+        if (imageToUpload && newsConfig !== "4") {
             newPost['image'] = imageToUpload.name;
         }
         setCompletePost(newPost);
@@ -326,9 +326,11 @@ function News({ user, storagePath }) {
                                     </div>
                                 </div>
                                 {user && user.email && (<>
+                                    <br />
                                     <button type="button" onClick={() => editPost(g)}><EditIcon /></button>
                                     <button type="button" style={{ backgroundColor: 'red' }} onClick={() => deletePost(g)}><DeleteIcon /></button></>
                                 )}
+                                <hr />
                             </div>
                         )
                         )}
