@@ -4,6 +4,10 @@ import Home from './routes/Home';
 import About from './routes/About';
 import Contact from './routes/Contact';
 import Donate from './routes/Donate';
+<<<<<<< Updated upstream
+=======
+// import Hartevanic from './routes/Hartevanic';
+>>>>>>> Stashed changes
 import Navigation from './components/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/Footer';
@@ -14,6 +18,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from 'react';
 import { auth } from './firebase';
 import { storage } from './firebase';
+import Engagement from './routes/Engagement';
 
 
 function App() {
@@ -38,9 +43,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home storage={storage} storagePath={needToHidePrefix} />} />
         <Route path="about" element={<About />} />
+        <Route path="engagement" element={<Engagement />} />
         <Route path="news" element={<News user={user} storagePath={needToHidePrefix} />} />
         <Route path="contact" element={<Contact />} />
         <Route path="donate" element={<Donate />} />
+<<<<<<< Updated upstream
+=======
+        {/* <Route path="hartevanic" element={<Hartevanic />} /> */}
+>>>>>>> Stashed changes
         <Route path="admin" element={<Admin user={user} />} />
       </Routes>
       <Footer />

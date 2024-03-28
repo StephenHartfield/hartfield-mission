@@ -20,9 +20,14 @@ function Navigation({ user }) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto mb-2 mb-lg-0">
             <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link href="/engagement">Info</Nav.Link>
             <Nav.Link href="/news">News</Nav.Link>
             <Nav.Link href="/contact">Contact</Nav.Link>
             <Nav.Link href="/donate">Donate</Nav.Link>
+<<<<<<< Updated upstream
+=======
+            {/* <Nav.Link href="/hartevanic">Hartevanic</Nav.Link> */}
+>>>>>>> Stashed changes
             <Nav.Link href='/admin'>Admin</Nav.Link>
             {user && <Nav.Link>{user.email}</Nav.Link>}
           </Nav>
