@@ -45,13 +45,14 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
 
   const changeProp = (value, prop, idx) => {
     const newData = { ...data };
-    if (idx) {
+    if (idx != null && idx > -1) {
       const newPs = newData[prop].concat();
       newPs[idx] = value;
       newData[prop] = newPs;
     } else {
       newData[prop] = value;
     }
+    console.log(newData);
     updateData(newData);
   }
 
@@ -82,7 +83,7 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
     changeProp(fileReadied.name, 'image');
     console.log(fileReadied)
   };
-
+  
   return (
     <EditWrapper>
       <TitleInput name="newTitle" key={'newsTitle'} id="edit" type="text"

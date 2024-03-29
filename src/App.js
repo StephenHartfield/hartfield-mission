@@ -4,10 +4,6 @@ import Home from './routes/Home';
 import About from './routes/About';
 import Contact from './routes/Contact';
 import Donate from './routes/Donate';
-<<<<<<< Updated upstream
-=======
-// import Hartevanic from './routes/Hartevanic';
->>>>>>> Stashed changes
 import Navigation from './components/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/Footer';
@@ -47,10 +43,6 @@ function App() {
         <Route path="news" element={<News user={user} storagePath={needToHidePrefix} />} />
         <Route path="contact" element={<Contact />} />
         <Route path="donate" element={<Donate />} />
-<<<<<<< Updated upstream
-=======
-        {/* <Route path="hartevanic" element={<Hartevanic />} /> */}
->>>>>>> Stashed changes
         <Route path="admin" element={<Admin user={user} />} />
       </Routes>
       <Footer />

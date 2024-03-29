@@ -24,10 +24,6 @@ function Navigation({ user }) {
             <Nav.Link href="/news">News</Nav.Link>
             <Nav.Link href="/contact">Contact</Nav.Link>
             <Nav.Link href="/donate">Donate</Nav.Link>
-<<<<<<< Updated upstream
-=======
-            {/* <Nav.Link href="/hartevanic">Hartevanic</Nav.Link> */}
->>>>>>> Stashed changes
             <Nav.Link href='/admin'>Admin</Nav.Link>
             {user && <Nav.Link>{user.email}</Nav.Link>}
           </Nav>
