@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'animate.css/animate.css';
 import styled from 'styled-components';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
+import moment from 'moment';
 
 const Main = styled.div`
     margin=top: 10px;
@@ -72,17 +75,19 @@ const AnsweredWrong = styled.div`
 `;
 
 const hasBonus = false;
-const dailyQuestion = { question: 'What is the capitol of Kenya?', 
+const dailyQuestion = {
+    question: 'What is the capitol of Kenya?',
     connection: {
         connectionType: 'article',
         link: ''
     },
     answerType: 'multipleChoice', answers: [
-    { text: 'Nairobi', isCorrect: true },
-    { text: 'Kitui', isCorrect: false },
-    { text: 'Dar Saloam', isCorrect: false },
-    { text: 'Kilamanjaro', isCorrect: false },
-] }
+        { text: 'Nairobi', isCorrect: true },
+        { text: 'Kitui', isCorrect: false },
+        { text: 'Dar Saloam', isCorrect: false },
+        { text: 'Kilamanjaro', isCorrect: false },
+    ]
+}
 // const connectionTypes = [ 'video', 'article' ];
 // const answerTypes = [ 'multipleChoice' ];
 
@@ -92,61 +97,83 @@ function Engagement() {
     const [showMessage, setShowMessage] = useState();
     const [messageExit, setMessageExit] = useState();
     const [dqFormExit, setDqFormExit] = useState();
+    const [currentEngagement, setCurrentEngagement] = useState();
+
+    useEffect(() => {
+        initialize()
+    }, []);
+
+    const initialize = async () => {
+        const data = await getDocs(collection(db, "engagement"));
+        const engagements = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        let latest = { date: moment().subtract(1, 'year').format("YYYY-MM-DD") };
+        engagements.forEach(e => {
+            if (moment(latest.date).isBefore(e.date)) {
+                latest = e;
+            }
+        });
+        setCurrentEngagement(latest);
+    }
 
     const selectAnswer = answer => {
-        setDqFormExit( true );
-        setTimeout( () => {
-            setShowMessage( true );
-            setTimeout( () => {
-                setMessageExit( true );
-                setTimeout( () => {
-                    setShowMessage( false );
-                }, 1000 )
-            }, 2500 );
+        setDqFormExit(true);
+        setTimeout(() => {
+            setShowMessage(true);
+            setTimeout(() => {
+                setMessageExit(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 1000)
+            }, 2500);
             setAnsweredStatus(answer.isCorrect);
-            setHasAnsweredDailyQuesiton( true );
-        }, 800 )
+            setHasAnsweredDailyQuesiton(true);
+        }, 800)
     }
 
     return (
         <Main className='container'>
-            { !hasAnsweredDailyQuestion && (
-                <DQWrapper >
-                    <DQHeader>Daily Question</DQHeader>
-                    { hasBonus && <BonusRibbon></BonusRibbon> }
-                    <DQForm className={'animate__animated ' + ( dqFormExit ? 'animate__bounceOutDown' : 'animate__zoomIn' ) }>
-                        <DQuestion>{dailyQuestion.question}</DQuestion>
-                        <DQAnswerLayout>
-                            { dailyQuestion.answerType && dailyQuestion.answerType==='multipleChoice' && (
-                                <>
-                                    { dailyQuestion.answers.length > 0 && dailyQuestion.answers.map( ( answer, idx ) => (
-                                        <DQAnswer onClick={() => selectAnswer(answer)}>{answer.text}</DQAnswer>
-                                    ) ) }
-                                </>
-                            ) }
-                        </DQAnswerLayout>
-                    </DQForm>
-                </DQWrapper>
-            ) }
-            {/* <h1 className='animate__animated animate__bounceIn'>This is the engagement page</h1> */}
-            { hasAnsweredDailyQuestion && showMessage && (
+            {currentEngagement && (
                 <>
-                    { answeredStatus && (
-                        <AnsweredRight className={'animate__animated ' + ( messageExit ? 'animate__bounceOutLeft': 'animate__bounceInRight' )}>
-                            Congratulation! You got it right!
-                        </AnsweredRight>
-                    ) }
-                    { !answeredStatus && (
-                        <AnsweredWrong className={'animate__animated ' + ( messageExit ? 'animate__bounceOutRight': 'animate__bounceInLeft' )}>
-                            Sorry Wrong Answer!
-                        </AnsweredWrong>
-                    ) }
+                    {!hasAnsweredDailyQuestion && (
+                        <DQWrapper >
+                            <DQHeader>Daily Question</DQHeader>
+                            {hasBonus && <BonusRibbon></BonusRibbon>}
+                            <DQForm className={'animate__animated ' + (dqFormExit ? 'animate__bounceOutDown' : 'animate__zoomIn')}>
+                                <DQuestion>{currentEngagement.question}</DQuestion>
+                                <DQAnswerLayout>
+                                    {currentEngagement.answerType && currentEngagement.answerType === 'multipleChoice' && (
+                                        <>
+                                            {currentEngagement.answers.length > 0 && currentEngagement.answers.map((answer, idx) => (
+                                                <DQAnswer onClick={() => selectAnswer(answer)}>{answer.text}</DQAnswer>
+                                            ))}
+                                        </>
+                                    )}
+                                </DQAnswerLayout>
+                            </DQForm>
+                        </DQWrapper>
+                    )}
+                    {/* <h1 className='animate__animated animate__bounceIn'>This is the engagement page</h1> */}
+                    {hasAnsweredDailyQuestion && showMessage && (
+                        <>
+                            {answeredStatus && (
+                                <AnsweredRight className={'animate__animated ' + (messageExit ? 'animate__bounceOutLeft' : 'animate__bounceInRight')}>
+                                    Congratulation! You got it right!
+                                </AnsweredRight>
+                            )}
+                            {!answeredStatus && (
+                                <AnsweredWrong className={'animate__animated ' + (messageExit ? 'animate__bounceOutRight' : 'animate__bounceInLeft')}>
+                                    Sorry Wrong Answer!
+                                </AnsweredWrong>
+                            )}
+                        </>
+                    )}
+                    {hasAnsweredDailyQuestion && !showMessage && (
+                        // show post or video here
+                        <div>article or video conection</div>
+                    )}
                 </>
-            ) }
-            { hasAnsweredDailyQuestion && !showMessage && (
-                // show post or video here
-                <div>article or video conection</div>
-            ) }
+            )}
+
         </Main>
     )
 }
