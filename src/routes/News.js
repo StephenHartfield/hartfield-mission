@@ -21,6 +21,7 @@ function News({ user, storagePath }) {
     const [showProgressPercent, setShowProgressPercent] = useState();
     const [displayPosts, setDisplayPosts] = useState(true);
     const [editPosts, setEditPosts] = useState();
+    const [newsCTO, setNewsCTO] = useState(false);
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -257,6 +258,7 @@ function News({ user, storagePath }) {
         setEditPosts();
     }
 
+
     return (
         <div className='backdrop'>
             <h1 className='animate__animated animate__bounceIn'>Hartfield Mission News</h1>
@@ -268,7 +270,7 @@ function News({ user, storagePath }) {
                     <br />
                     <br />
                     {updatePosts.map((p, idx) => (
-                        <div key={'p ' + idx}><textarea name="updatePost" 
+                        <div key={'p ' + idx}><textarea name="updatePost"
                             id={'p ' + idx}
                             value={p}
                             className="paragraph paragraphInput"
@@ -288,6 +290,12 @@ function News({ user, storagePath }) {
                         </select>
                     </label>
                     <br />
+                    <input type='checkbox' value={newsCTO} onChange={e => setNewsCTO(e.target.value)} />Call to Action?
+                    {newsCTO === true && (
+                        <>
+                            <textarea placeholder='Customize text...' />
+                        </>
+                    )}
                     <br />
                     {newsConfig !== "4" && (
                         <>
@@ -319,7 +327,7 @@ function News({ user, storagePath }) {
                     <>
                         {newsData && newsData.map((g, idx) => (
                             <div key={g.title + idx}><div className="title">{g.title}</div><br />
-                                <div style={{ display: "flex" , justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
                                     <div style={{ margin: g.configuration === "1" ? "0 1% 0 10%" : g.configuration === "2" ? "0 10% 0 1%" : "0 10%", width: "50%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index}>{p}</p>))}</div>
                                     <div style={{ margin: "0 10%", width: "20%", display: g.configuration === "4" ? "none" : "block" }}>
                                         <img src={g.image} width="100%" height="100%" alt=''></img>
