@@ -21,7 +21,7 @@ function News({ user, storagePath }) {
     const [showProgressPercent, setShowProgressPercent] = useState();
     const [displayPosts, setDisplayPosts] = useState(true);
     const [editPosts, setEditPosts] = useState();
-    const [newsCTO, setNewsCTO] = useState(false);
+    const [displayCTO, setDisplayCTO] = useState(false);
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -258,6 +258,17 @@ function News({ user, storagePath }) {
         setEditPosts();
     }
 
+    const toggleCTO = () => {
+        if (displayCTO === true) {
+            setDisplayCTO(false);
+            console.log("CTO turned off");
+        }
+        if (displayCTO === false) {
+            setDisplayCTO(true);
+            console.log("CTO turned on");
+        }
+        console.log("CTO Toggle Triggered");
+    }
 
     return (
         <div className='backdrop'>
@@ -290,9 +301,10 @@ function News({ user, storagePath }) {
                         </select>
                     </label>
                     <br />
-                    <input type='checkbox' value={newsCTO} onChange={e => setNewsCTO(e.target.value)} />Call to Action?
-                    {newsCTO === true && (
+                    <input type='checkbox' onClick={toggleCTO} />Call to Action?
+                    {displayCTO === true && (
                         <>
+                            <br />
                             <textarea placeholder='Customize text...' />
                         </>
                     )}
