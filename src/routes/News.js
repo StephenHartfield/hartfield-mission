@@ -22,6 +22,7 @@ function News({ user, storagePath }) {
     const [displayPosts, setDisplayPosts] = useState(true);
     const [editPosts, setEditPosts] = useState();
     const [displayCTO, setDisplayCTO] = useState(false);
+    const [newsCTO, setNewsCTO] = useState('');
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -75,6 +76,7 @@ function News({ user, storagePath }) {
         setNewsConfig('1');
         setImgUrl('');
         setProgresspercent(0);
+        setNewsCTO('');
     }
 
     const resetButton = (f) => {
@@ -301,11 +303,12 @@ function News({ user, storagePath }) {
                         </select>
                     </label>
                     <br />
-                    <input type='checkbox' onClick={toggleCTO} />Call to Action?
+                    <input type='checkbox' className='CTOtoggle' onClick={toggleCTO} />Call to Action?
                     {displayCTO === true && (
                         <>
                             <br />
-                            <textarea placeholder='Customize text...' />
+                            <textarea placeholder='Customize text...' value={newsCTO} onChange={e => setNewsCTO(e.target.value)} />
+                            <br />
                         </>
                     )}
                     <br />
