@@ -1,12 +1,17 @@
 import React from 'react'
 import 'animate.css/animate.css'
 import './Contact.css'
+import styled from 'styled-components';
+
+const Send = styled.button`
+    margin: 1%;
+`;
 
 
 function Contact() {
     return (
         <div>
-            <h1 className='animate__animated animate__bounceIn'>This is the contact page</h1>
+            <h1 className='animate__animated animate__bounceIn'>Contact Us</h1>
             <br></br>
             <textarea name='contactBody' className="contactinput" placeholder="Enter your message here..." rows="5" cols="35"></textarea>
             <br></br>
@@ -14,7 +19,7 @@ function Contact() {
             <input type="text" placeholder="Name" className='contactinput'></input>
             <input type="email" placeholder="Email" className='contactinput'></input>
             <br></br>
-            <button type="submit">Send</button>
+            <Send type="submit">Send</Send>
         </div>
     )
 }
