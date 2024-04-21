@@ -309,6 +309,8 @@ function News({ user, storagePath }) {
                             <br />
                             <textarea placeholder='Customize text...' value={newsCTO} onChange={e => setNewsCTO(e.target.value)} />
                             <br />
+                            <input type="url" placeholder='Link?'></input>
+                            <br />
                         </>
                     )}
                     <br />
