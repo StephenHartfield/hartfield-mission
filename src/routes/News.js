@@ -21,8 +21,8 @@ function News({ user, storagePath }) {
     const [showProgressPercent, setShowProgressPercent] = useState();
     const [displayPosts, setDisplayPosts] = useState(true);
     const [editPosts, setEditPosts] = useState();
-    const [displayCTO, setDisplayCTO] = useState(false);
-    const [newsCTO, setNewsCTO] = useState('');
+    const [displayCTA, setDisplayCTA] = useState(false);
+    const [newsCTA, setNewsCTA] = useState('');
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -42,6 +42,9 @@ function News({ user, storagePath }) {
             newPost['image'] = imageToUpload.name;
         }
         setCompletePost(newPost);
+        if (newsCTA) {
+            newPost['cta'] = newsCTA;
+        }
 
         try {
             const docRef = await addDoc(collection(db, "news"), newPost);
@@ -76,7 +79,7 @@ function News({ user, storagePath }) {
         setNewsConfig('1');
         setImgUrl('');
         setProgresspercent(0);
-        setNewsCTO('');
+        setNewsCTA('');
     }
 
     const resetButton = (f) => {
@@ -260,16 +263,16 @@ function News({ user, storagePath }) {
         setEditPosts();
     }
 
-    const toggleCTO = () => {
-        if (displayCTO === true) {
-            setDisplayCTO(false);
-            console.log("CTO turned off");
+    const toggleCTA = () => {
+        if (displayCTA === true) {
+            setDisplayCTA(false);
+            console.log("CTA turned off");
         }
-        if (displayCTO === false) {
-            setDisplayCTO(true);
-            console.log("CTO turned on");
+        if (displayCTA === false) {
+            setDisplayCTA(true);
+            console.log("CTA turned on");
         }
-        console.log("CTO Toggle Triggered");
+        console.log("CTA Toggle Triggered");
     }
 
     return (
@@ -303,11 +306,11 @@ function News({ user, storagePath }) {
                         </select>
                     </label>
                     <br />
-                    <input type='checkbox' className='CTOtoggle' onClick={toggleCTO} />Call to Action?
-                    {displayCTO === true && (
+                    <input type='checkbox' className='CTAtoggle' onClick={toggleCTA} />Call to Action?
+                    {displayCTA === true && (
                         <>
                             <br />
-                            <textarea placeholder='Customize text...' value={newsCTO} onChange={e => setNewsCTO(e.target.value)} />
+                            <textarea placeholder='Customize text...' value={newsCTA} onChange={e => setNewsCTA(e.target.value)} />
                             <br />
                             <input type="url" placeholder='Link?'></input>
                             <br />
@@ -350,6 +353,12 @@ function News({ user, storagePath }) {
                                         <img src={g.image} width="100%" height="100%" alt=''></img>
                                     </div>
                                 </div>
+                                {g.cta && (
+                                    <div>
+                                        <button>{g.cta}</button>
+                                    </div>
+                                )
+                                }
                                 {user && user.email && (<>
                                     <br />
                                     <button type="button" onClick={() => editPost(g)}><EditIcon /></button>
