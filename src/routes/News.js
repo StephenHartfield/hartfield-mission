@@ -41,7 +41,7 @@ function News({ user, storagePath }) {
         newPost['configuration'] = newsConfig;
         if (imageToUpload && newsConfig !== "4") {
             newPost['image'] = imageToUpload.name;
-            newPost['imageWidth'] = imageW;
+            newPost['imageW'] = imageW;
         }
         setCompletePost(newPost);
         if (newsCTA) {
@@ -353,8 +353,8 @@ function News({ user, storagePath }) {
                             <div key={g.title + idx}><div className="title">{g.title}</div><br />
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
                                     <div style={{ margin: g.configuration === "1" ? "0 1% 0 10%" : g.configuration === "2" ? "0 10% 0 1%" : "0 10%", width: "50%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index}>{p}</p>))}</div>
-                                    <div style={{ margin: "0 10%", width: "20%", display: g.configuration === "4" ? "none" : "block" }}>
-                                        <img src={g.image} width="100%" height="100%" alt=''></img>
+                                    <div style={{ margin: "0 10%", width: "400", display: g.configuration === "4" ? "none" : "block" }}>
+                                        <img src={g.image} width={g.imageW && g.imageW !== "400" ? g.imageW : "400px"} height="100%" alt=''></img>
                                     </div>
                                 </div>
                                 {g.cta && (
