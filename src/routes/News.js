@@ -23,6 +23,7 @@ function News({ user, storagePath }) {
     const [editPosts, setEditPosts] = useState();
     const [displayCTA, setDisplayCTA] = useState(false);
     const [newsCTA, setNewsCTA] = useState('');
+    const [imageW, setimageW] = useState('400');
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -40,6 +41,7 @@ function News({ user, storagePath }) {
         newPost['configuration'] = newsConfig;
         if (imageToUpload && newsConfig !== "4") {
             newPost['image'] = imageToUpload.name;
+            newPost['imageWidth'] = imageW;
         }
         setCompletePost(newPost);
         if (newsCTA) {
@@ -80,6 +82,7 @@ function News({ user, storagePath }) {
         setImgUrl('');
         setProgresspercent(0);
         setNewsCTA('');
+        setimageW('400');
     }
 
     const resetButton = (f) => {
@@ -326,7 +329,8 @@ function News({ user, storagePath }) {
                                 ref={hiddenFileInput}
                                 style={{ display: 'none' }}
                             />
-                            {imageUrl && <img src={imageUrl} width="400" alt={imageUrl} />}
+                            {imageUrl && <img src={imageUrl} width={imageW} alt={imageUrl} />}
+                            {imageUrl && (<input type='number' value={imageW} onChange={e => setimageW(e.target.value)}></input>)}
                             {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
                                 <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
                             </div>}
