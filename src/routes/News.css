@@ -27,3 +27,8 @@
 .CTAtoggle {
     margin: 5px;
 }
+
+.CTA {
+    border: 2px solid black;
+    background-color: lightgray;
+}

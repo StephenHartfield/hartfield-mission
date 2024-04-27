@@ -24,6 +24,7 @@ function News({ user, storagePath }) {
     const [displayCTA, setDisplayCTA] = useState(false);
     const [newsCTA, setNewsCTA] = useState('');
     const [imageW, setimageW] = useState('400');
+    const [ctaLink, setCTALink] = useState('');
 
     const handleUploadChange = (e) => {
         hiddenFileInput.current.click();
@@ -46,6 +47,7 @@ function News({ user, storagePath }) {
         setCompletePost(newPost);
         if (newsCTA) {
             newPost['cta'] = newsCTA;
+            newPost['cta_link'] = ctaLink;
         }
 
         try {
@@ -83,6 +85,7 @@ function News({ user, storagePath }) {
         setProgresspercent(0);
         setNewsCTA('');
         setimageW('400');
+        setCTALink('');
     }
 
     const resetButton = (f) => {
@@ -313,9 +316,9 @@ function News({ user, storagePath }) {
                     {displayCTA === true && (
                         <>
                             <br />
-                            <textarea placeholder='Customize text...' value={newsCTA} onChange={e => setNewsCTA(e.target.value)} />
+                            <textarea placeholder='Customize text...' className='CTA' value={newsCTA} onChange={e => setNewsCTA(e.target.value)} />
                             <br />
-                            <input type="url" placeholder='Link?'></input>
+                            <input type="url" placeholder='Link?' className='CTA' value={ctaLink} onChange={e => setCTALink(e.target.value)} ></input>
                             <br />
                         </>
                     )}
@@ -359,7 +362,7 @@ function News({ user, storagePath }) {
                                 </div>
                                 {g.cta && (
                                     <div>
-                                        <button>{g.cta}</button>
+                                        <a href={g.cta_link} target='_blank'><button>{g.cta}</button></a>
                                     </div>
                                 )
                                 }
