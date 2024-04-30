@@ -42,6 +42,7 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
   const [imageUrl, setImgUrl] = useState();
   const [progresspercent, setProgresspercent] = useState(0);
   const [showProgressPercent, setShowProgressPercent] = useState();
+  const [displayCTA, setDisplayCTA] = useState(false);
 
   const changeProp = (value, prop, idx) => {
     const newData = { ...data };
@@ -83,6 +84,18 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
     changeProp(fileReadied.name, 'image');
     console.log(fileReadied)
   };
+
+  const toggleCTA = () => {
+    if (displayCTA === true) {
+        setDisplayCTA(false);
+        console.log("CTA turned off");
+    }
+    if (displayCTA === false) {
+        setDisplayCTA(true);
+        console.log("CTA turned on");
+    }
+    console.log("CTA Toggle Triggered");
+  }
   
   return (
     <EditWrapper>
@@ -105,6 +118,11 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
         {configs.map(config => <option key={config.value} value={config.value}>{config.label}</option>)}
       </select>
       <br />
+      <input type='checkbox' className='CTAtoggle' onClick={toggleCTA} />Call to Action?
+      {displayCTA === true && (
+        <>
+        </>
+      )}
       <br />
       {data.configuration !== "4" && (
         <>

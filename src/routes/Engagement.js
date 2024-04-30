@@ -75,19 +75,19 @@ const AnsweredWrong = styled.div`
 `;
 
 const hasBonus = false;
-const dailyQuestion = {
-    question: 'What is the capitol of Kenya?',
-    connection: {
-        connectionType: 'article',
-        link: ''
-    },
-    answerType: 'multipleChoice', answers: [
-        { text: 'Nairobi', isCorrect: true },
-        { text: 'Kitui', isCorrect: false },
-        { text: 'Dar Saloam', isCorrect: false },
-        { text: 'Kilamanjaro', isCorrect: false },
-    ]
-}
+// const dailyQuestion = {
+//     question: 'What is the capitol of Kenya?',
+//     connection: {
+//         connectionType: 'article',
+//         link: ''
+//     },
+//     answerType: 'multipleChoice', answers: [
+//         { text: 'Nairobi', isCorrect: true },
+//         { text: 'Kitui', isCorrect: false },
+//         { text: 'Dar Saloam', isCorrect: false },
+//         { text: 'Kilamanjaro', isCorrect: false },
+//     ]
+// }
 // const connectionTypes = [ 'video', 'article' ];
 // const answerTypes = [ 'multipleChoice' ];
 
@@ -148,6 +148,13 @@ function Engagement() {
                                             ))}
                                         </>
                                     )}
+                                    {currentEngagement.answerType && currentEngagement.answerType === 'trueOrFalse' && (
+                                        <>
+                                            {currentEngagement.answers.length > 0 && currentEngagement.answers.map((answer, idx) => (
+                                                <DQAnswer onClick={() => selectAnswer(answer)}>{answer.text}</DQAnswer>
+                                            ))}
+                                        </>
+                                    )}
                                 </DQAnswerLayout>
                             </DQForm>
                         </DQWrapper>
@@ -157,7 +164,7 @@ function Engagement() {
                         <>
                             {answeredStatus && (
                                 <AnsweredRight className={'animate__animated ' + (messageExit ? 'animate__bounceOutLeft' : 'animate__bounceInRight')}>
-                                    Congratulation! You got it right!
+                                    Congratulations! You got it right!
                                 </AnsweredRight>
                             )}
                             {!answeredStatus && (
