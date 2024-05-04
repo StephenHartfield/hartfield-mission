@@ -121,6 +121,7 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
       <input type='checkbox' className='CTAtoggle' onClick={toggleCTA} />Call to Action?
       {displayCTA === true && (
         <>
+          
         </>
       )}
       <br />
@@ -134,9 +135,13 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
             style={{ display: 'none' }}
           />
           {data.image !== null && (
-            <img src={data.image} width="400" alt={data.image} />
+            <>
+            <img src={data.image} width={data.imageW ? data.imageW : "400"} alt={data.image} />
+            <input type="number" value={data.imageW ? data.imageW : "400"} onChange={e => changeProp(e.target.value, "imageW")} />
+            </>
           )}
           {imageUrl && <img src={imageUrl} width="400" alt={imageUrl} />}
+          {}
           {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
             <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
           </div>}
