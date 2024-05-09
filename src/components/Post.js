@@ -118,7 +118,7 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
         {configs.map(config => <option key={config.value} value={config.value}>{config.label}</option>)}
       </select>
       <br />
-      <input type='checkbox' className='CTAtoggle' onClick={toggleCTA} />Call to Action?
+      <button className='CTAtoggle' onClick={toggleCTA}>Call to Action?</button>
       {displayCTA === true && (
         <>
           
