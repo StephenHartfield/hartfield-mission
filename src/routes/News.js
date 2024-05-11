@@ -312,7 +312,7 @@ function News({ user, storagePath }) {
                         </select>
                     </label>
                     <br />
-                    <button className='CTAtoggle' onClick={toggleCTA}>Call to Action?</button>
+                    <button className='CTAtoggle btn btn-outline-primary' onClick={toggleCTA}>Call to Action?</button>
                     {displayCTA === true && (
                         <>
                             <br />

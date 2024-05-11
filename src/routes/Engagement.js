@@ -98,6 +98,7 @@ function Engagement() {
     const [messageExit, setMessageExit] = useState();
     const [dqFormExit, setDqFormExit] = useState();
     const [currentEngagement, setCurrentEngagement] = useState();
+    const [currentResults, setCurrentResults] = useState();
 
     useEffect(() => {
         initialize()
@@ -105,6 +106,7 @@ function Engagement() {
 
     const initialize = async () => {
         const data = await getDocs(collection(db, "engagement"));
+        const results = await getDocs(collection(db, "stats"));
         const engagements = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         let latest = { date: moment().subtract(1, 'year').format("YYYY-MM-DD") };
         engagements.forEach(e => {
