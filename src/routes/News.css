@@ -32,3 +32,7 @@
     border: 2px solid black;
     background-color: lightgray;
 }
+
+.newsText {
+    vertical-align: center;
+}

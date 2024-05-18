@@ -333,7 +333,8 @@ function News({ user, storagePath }) {
                                 style={{ display: 'none' }}
                             />
                             {imageUrl && <img src={imageUrl} width={imageW} alt={imageUrl} />}
-                            {imageUrl && (<input type='number' value={imageW} onChange={e => setimageW(e.target.value)}></input>)}
+                            <br />
+                            {imageUrl && (<input type='range' value={imageW} min="100" max="1000" onChange={e => setimageW(e.target.value)}></input>)}
                             {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
                                 <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
                             </div>}
@@ -355,7 +356,8 @@ function News({ user, storagePath }) {
                         {newsData && newsData.map((g, idx) => (
                             <div key={g.title + idx}><div className="title">{g.title}</div><br />
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
-                                    <div style={{ margin: g.configuration === "1" ? "0 1% 0 10%" : g.configuration === "2" ? "0 10% 0 1%" : "0 10%", width: "50%", display: g.configuration === "3" ? "none" : "block" }} className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index}>{p}</p>))}</div>
+                                    <div style={{ margin: g.configuration === "1" ? "0 1% 0 10%" : g.configuration === "2" ? "0 10% 0 1%" : "0 10%", width: "50%", display: g.configuration === "3" ? "none" : "block" }} 
+                                        className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index} className='newsText'>{p}</p>))}</div>
                                     <div style={{ margin: "0 10%", width: "400", display: g.configuration === "4" ? "none" : "block" }}>
                                         <img src={g.image} width={g.imageW && g.imageW !== "400" ? g.imageW : "400px"} height="100%" alt=''></img>
                                     </div>

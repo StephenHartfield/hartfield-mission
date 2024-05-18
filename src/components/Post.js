@@ -70,7 +70,7 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
   const addTextArea = () => {
     const newData = { ...data };
     newData.paragraphs.push('');
-    updateData( newData );
+    updateData(newData);
   }
 
   const handleUploadChange = (e) => {
@@ -87,16 +87,16 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
 
   const toggleCTA = () => {
     if (displayCTA === true) {
-        setDisplayCTA(false);
-        console.log("CTA turned off");
+      setDisplayCTA(false);
+      console.log("CTA turned off");
     }
     if (displayCTA === false) {
-        setDisplayCTA(true);
-        console.log("CTA turned on");
+      setDisplayCTA(true);
+      console.log("CTA turned on");
     }
     console.log("CTA Toggle Triggered");
   }
-  
+
   return (
     <EditWrapper>
       <TitleInput name="newTitle" key={'newsTitle'} id="edit" type="text"
@@ -121,7 +121,11 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
       <button className='CTAtoggle' onClick={toggleCTA}>Call to Action?</button>
       {displayCTA === true && (
         <>
-          
+          <br />
+          <textarea placeholder='Customize text...' className='CTA' value={data.cta} onChange={e => changeProp(e.target.value, 'cta')} />
+          <br />
+          <input type="url" placeholder='Link?' className='CTA' value={data.cta_link} onChange={e => changeProp(e.target.value, 'cta_link')} ></input>
+          <br />
         </>
       )}
       <br />
@@ -136,12 +140,13 @@ function Post({ data, updateData, submit, cancel, setImageToUpload }) {
           />
           {data.image !== null && (
             <>
-            <img src={data.image} width={data.imageW ? data.imageW : "400"} alt={data.image} />
-            <input type="number" value={data.imageW ? data.imageW : "400"} onChange={e => changeProp(e.target.value, "imageW")} />
+              <img src={data.image} width={data.imageW ? data.imageW : "400"} alt={data.image} />
+              <br />
+              <input type="range" min="100" max="1000" value={data.imageW ? data.imageW : "400"} onChange={e => changeProp(e.target.value, "imageW")} />
             </>
           )}
           {imageUrl && <img src={imageUrl} width="400" alt={imageUrl} />}
-          {}
+          { }
           {progresspercent <= 100 && <div className={`animate__animated ${showProgressPercent ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ width: '250px', margin: '0 auto', border: '2px solid black' }}>
             <div style={{ width: `${progresspercent}%`, backgroundColor: 'green', height: '10px' }}></div>
           </div>}
