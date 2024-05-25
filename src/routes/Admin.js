@@ -50,8 +50,6 @@ function Admin({user}) {
                     <input className='admininput' type="password" placeholder="Password" name="userPWord" id="userPWord" value={userPWord} onChange={e => setUserPWord(e.target.value)} />
                     <br />
                     <br />
-                    <button className='btn btn-success' type="submit" onClick={submit}>Submit</button>
-                    <button className='btn btn-danger' type="reset">Clear</button>
                     </form>
                 </>
             )}
