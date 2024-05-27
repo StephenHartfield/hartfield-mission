@@ -75,21 +75,6 @@ const AnsweredWrong = styled.div`
 `;
 
 const hasBonus = false;
-// const dailyQuestion = {
-//     question: 'What is the capitol of Kenya?',
-//     connection: {
-//         connectionType: 'article',
-//         link: ''
-//     },
-//     answerType: 'multipleChoice', answers: [
-//         { text: 'Nairobi', isCorrect: true },
-//         { text: 'Kitui', isCorrect: false },
-//         { text: 'Dar Saloam', isCorrect: false },
-//         { text: 'Kilamanjaro', isCorrect: false },
-//     ]
-// }
-// const connectionTypes = [ 'video', 'article' ];
-// const answerTypes = [ 'multipleChoice' ];
 
 function Engagement() {
     const [answeredStatus, setAnsweredStatus] = useState();
