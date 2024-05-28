@@ -19,7 +19,7 @@ const Div = styled.div`
 function Home({ storage, storagePath }) {
   const [exampleUrl, setExampleUrl] = useState();
   const rows = [
-    { text: 'abc', image: require('../assets/Kenya-landing.jpg') }
+    { text: '', image: require('../assets/Steve-and-Ellen.JPG') }
   ]
 
   useEffect(() => {
@@ -41,16 +41,17 @@ function Home({ storage, storagePath }) {
       <Header className='animate__animated animate__bounceIn'>The Hartfields are going to Kenya!</Header>
       {rows.map((row, idx) => (
         <Div key={'home-' + idx}>
-          <Image src={row.image} rounded />
+          <Image src={row.image} rounded width="50%" />
           <Text>{row.text}</Text>
         </Div>
       ))}
-      <p>example Youtube embed</p>
+      <br />
       <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
         <ReactPlayer url={'https://www.youtube.com/watch?v=jiXChF4oQJo'} />
       </div>
-      {exampleUrl && <img src={exampleUrl} />}
-      Example image from storage
+      <br />
+      {/*{exampleUrl && <img src={exampleUrl} />}
+      Example image from storage */}
     </div>
   );
 }
