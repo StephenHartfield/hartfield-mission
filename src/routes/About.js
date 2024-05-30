@@ -3,23 +3,25 @@ import 'animate.css/animate.css'
 import styled from 'styled-components';
 
 const Blurb = styled.p`
-    margin: 0 20%;
+    margin: 1% 20%;
+`;
+const Verse = styled.p`
+    font-style: italic;
 `;
 
 function About() {
     return (
         <div>
-            <h1 className='animate__animated animate__bounceIn'>The Hartfield Mission</h1>
-            <p>(insert blurb about who Steven and Ellen Hartfield are, what their goals are for Kenya, and what they hope to accomplish through this website.)</p>
-            <Blurb>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-                anim id est laborum.</Blurb>
+            <Verse>"He was moved with compassion for them...The harvest truly is plentiful, but the laborers are few."</Verse>
+            <Verse>- Matthew 9:36-38</Verse>
             <h1 className='animate__animated animate__bounceIn'>Mr. & Mrs. Hartfield</h1>
-            <Blurb>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
-                anim id est laborum.</Blurb>
+            <Blurb>In the summer of 2018, God gave Stephen Hartfield a dream: we were moving to Africa. </Blurb>
+            <Blurb>Since that day, we have been on a journey of preparation and anticipation of God's call on our lives, 
+                moving forward step by step in God's timing and leading, and the time is finally here!</Blurb>
+            <Blurb>Matthew 9:36-38 says, “But when Jesus saw the multitudes, He was moved with compassion for them, 
+                because they were weary and scattered, like sheep having no shepherd. Then He said to His disciples, 
+                'The harvest truly is plentiful, but the laborers are few. 
+                Therefore pray the Lord of the harvest to send out laborers into His harvest.'”</Blurb>
         </div>
     )
 }

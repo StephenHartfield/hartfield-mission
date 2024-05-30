@@ -371,7 +371,7 @@ function News({ user, storagePath }) {
                                     <button type="button" onClick={() => editPost(g)}><EditIcon /></button>
                                     <button type="button" style={{ backgroundColor: 'red' }} onClick={() => deletePost(g)}><DeleteIcon /></button></>
                                 )}
-                                <hr />
+                                <hr style={{marginTop: '2rem'}} />
                             </div>
                         )
                         )}
