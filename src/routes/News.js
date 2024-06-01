@@ -354,9 +354,9 @@ function News({ user, storagePath }) {
                         {newsData && newsData.map((g, idx) => (
                             <div style={{margin: "0 10% 0 10%"}} key={g.title + idx}><div className="title">{g.title}</div><br />
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: g.configuration === "2" ? "row" : "row-reverse" }}>
-                                    <div style={{ margin: g.configuration === "1" ? "0 1% 0 10%" : g.configuration === "2" ? "0 10% 0 1%" : "0 10%", width: "50%", display: g.configuration === "3" ? "none" : "block" }} 
+                                    <div style={{ margin: g.configuration === "1" ? "0 1%" : g.configuration === "2" ? "0 1%" : "0 10%", width: "50%", display: g.configuration === "3" ? "none" : "block" }} 
                                         className="paragraph">{g.paragraphs && g.paragraphs.map((p, index) => (<p key={"p" + index} className='newsText'>{p}</p>))}</div>
-                                    <div style={{ margin: "0 10%", width: "400", display: g.configuration === "4" ? "none" : "block" }}>
+                                    <div style={{ margin: "0 8%", width: "400", display: g.configuration === "4" ? "none" : "block" }}>
                                         <img src={g.image} width={g.imageW && g.imageW !== "400" ? g.imageW : "400px"} height="100%" alt=''></img>
                                     </div>
                                 </div>
