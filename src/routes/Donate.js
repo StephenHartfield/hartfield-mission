@@ -9,12 +9,9 @@ const Donation = styled.button`
 
 function Donate() {
     return (
-        <div>
-            
-            <h1 className='animate__animated animate__bounceIn'>Donate</h1>
-            <p>If you would like to support the mission financially, you can do so here:</p>
-            <Donation type="button">Donate</Donation>
-            <p>*Note: Donate button does not work currently*</p>
+        <div style={{ padding: '50px'}}>
+            <p>Donations can be done through Foursquare</p>
+            <a href='https://give.foursquare.org/fundraiser/5564063'>GIVE</a>
         </div>
     )
 }
